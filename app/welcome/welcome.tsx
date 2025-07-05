@@ -41,7 +41,7 @@ export function Welcome() {
       </div>
 
       <button className="btn btn-primary mt-4" onClick={handleSubmit}>
-        Submit Order
+        Review Order
       </button>
     </main>
   );
