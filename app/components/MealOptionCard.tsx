@@ -9,12 +9,14 @@ type MealOptionCardProps = {
 };
 
 const MealOptionCard: React.FC<MealOptionCardProps> = ({ meal, quantity, onQuantityChange }) => {
-    const { id, image, title, description, tags } = meal;
+    const { id, image, title, description, tags, price } = meal;
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newQuantity = parseInt(e.target.value, 10);
         onQuantityChange(id, newQuantity);
     };
+
+    const totalPrice = price * quantity;
 
     return (
         <div className="card bg-base-100 shadow-md">
@@ -37,7 +39,7 @@ const MealOptionCard: React.FC<MealOptionCardProps> = ({ meal, quantity, onQuant
                     </div>
                 </div>
 
-                <div>
+                <div className="flex flex-col items-end w-24">
                     <select
                         className="select select-bordered w-20"
                         value={quantity}
@@ -47,6 +49,13 @@ const MealOptionCard: React.FC<MealOptionCardProps> = ({ meal, quantity, onQuant
                             <option key={i} value={i}>{i}</option>
                         ))}
                     </select>
+
+                    <div className="text-sm text-base-content mt-1 min-h-[1.5rem]">
+                      <span className="flex flex-col md:flex-row md:items-baseline md:whitespace-nowrap gap-x-1">
+                        <span className="font-bold">${totalPrice.toFixed(2)}</span>{" "}
+                        <span className="italic">(${price.toFixed(2)} ea.)</span>
+                      </span>
+                    </div>
                 </div>
             </div>
         </div>
