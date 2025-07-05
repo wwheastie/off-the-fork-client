@@ -30,7 +30,7 @@ export function Welcome() {
 
   return (
     <main className="container mx-auto px-4 py-8">
-      <div>
+      <div className="space-y-2">
           {mealsData.map((meal) => (
               <MealOptionCard
                   meal={meal}
