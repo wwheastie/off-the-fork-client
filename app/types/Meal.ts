@@ -5,4 +5,5 @@ export type Meal = {
     image: string;
     tags: string[];
     price: number;
+    notes: string;
 };
