@@ -13,6 +13,7 @@ const MealOptionCard: React.FC<MealOptionCardProps> = ({ meal, quantity, onChang
     const { id, image, title, description, tags, price, notes } = meal;
     const [isEditingNote, setIsEditingNote] = useState(false);
     const [noteInput, setNoteInput] = useState(notes);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const qty = parseInt(e.target.value, 10);
@@ -22,12 +23,13 @@ const MealOptionCard: React.FC<MealOptionCardProps> = ({ meal, quantity, onChang
     const handleNoteSave = () => {
         const trimmed = noteInput.trim();
         onChange(id, { mealId: id, quantity, notes: trimmed });
-        setIsEditingNote(false);
+        setIsModalOpen(false);
     };
 
     const totalPrice = price * quantity;
 
     return (
+        <>
         <div className="card bg-base-100 shadow-md">
             <div className="flex items-start p-4 gap-4">
                 {/* Image on the left */}
@@ -68,41 +70,52 @@ const MealOptionCard: React.FC<MealOptionCardProps> = ({ meal, quantity, onChang
 
 
                     {/* Special Notes button */}
-                    <div className="inline-block mt-2">
+                    <div className="inline-block mt-2 relative">
                         <button
                             className="btn btn-sm btn-outline whitespace-nowrap relative"
-                            onClick={() => setIsEditingNote(!isEditingNote)}
+                            onClick={() => setIsModalOpen(true)}
                             type="button"
                         >
                             Special Notes
-
-                            {noteInput.trim() !== "" && (
-                                <div className="absolute top-0 right-0 w-3 h-3 bg-red-500 clip-triangle" />
-                            )}
                         </button>
-                    </div>
 
-                    {/* Notes input (conditionally shown) */}
-                    {isEditingNote && (
-                        <div className="mt-2 w-40">
-                <textarea
-                    className="textarea textarea-bordered w-full text-sm"
-                    rows={2}
-                    value={noteInput}
-                    onChange={(e) => setNoteInput(e.target.value)}
-                />
-                            <button
-                                className="btn btn-xs btn-primary mt-1"
-                                onClick={handleNoteSave}
-                                type="button"
-                            >
-                                Save Note
-                            </button>
-                        </div>
-                    )}
+                        {noteInput.trim() !== "" && (
+                            <div className="absolute top-0.5 right-0.5 w-3 h-3 bg-red-500 clip-triangle" />
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
+
+
+    {isModalOpen && (
+        <div
+            className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+            onClick={() => setIsModalOpen(false)}
+        >
+            <div
+                className="bg-base-100 rounded-lg p-6 w-full max-w-md mx-4 shadow-xl relative"
+                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+            >
+                <h3 className="text-lg font-bold mb-4">Special Notes for {title}</h3>
+                <textarea
+                    className="textarea textarea-bordered w-full mb-4"
+                    rows={4}
+                    value={noteInput}
+                    onChange={(e) => setNoteInput(e.target.value)}
+                />
+                <div className="flex justify-end gap-2">
+                    <button className="btn btn-ghost" onClick={() => setIsModalOpen(false)}>
+                        Cancel
+                    </button>
+                    <button className="btn btn-primary" onClick={handleNoteSave}>
+                        Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    )}
+    </>
     );
 };
 
