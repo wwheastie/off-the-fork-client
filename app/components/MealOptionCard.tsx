@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import CircularTag from "~/components/CircularTag";
 import type {Meal} from "~/types/Meal";
 import type {OrderItem} from "~/types/OrderItem";
@@ -11,9 +11,21 @@ type MealOptionCardProps = {
 
 const MealOptionCard: React.FC<MealOptionCardProps> = ({ meal, quantity, onChange }) => {
     const { id, image, title, description, tags, price, notes } = meal;
-    const [isEditingNote, setIsEditingNote] = useState(false);
     const [noteInput, setNoteInput] = useState(notes);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    useEffect(() => {
+        if (isModalOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+
+        // Reset on component unmount
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [isModalOpen]);
 
     const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const qty = parseInt(e.target.value, 10);
@@ -90,12 +102,12 @@ const MealOptionCard: React.FC<MealOptionCardProps> = ({ meal, quantity, onChang
 
     {isModalOpen && (
         <div
-            className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+            className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 overflow-hidden"
             onClick={() => setIsModalOpen(false)}
         >
             <div
                 className="bg-base-100 rounded-lg p-6 w-full max-w-md mx-4 shadow-xl relative"
-                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+                onClick={(e) => e.stopPropagation()}
             >
                 <h3 className="text-lg font-bold mb-4">Special Notes for {title}</h3>
                 <textarea
