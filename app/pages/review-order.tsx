@@ -1,4 +1,39 @@
+import React, {useState} from "react";
+import {useNavigate} from "react-router";
+
 const ReviewOrder = () => {
+    const [contactInfo, setContactInfo] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+    });
+
+    const navigate = useNavigate();
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setContactInfo((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async () => {
+        const payload = {
+            contact: contactInfo,
+            // include other order data here as needed
+        };
+
+        // Example POST request
+        await fetch("/api/submit-order", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        });
+
+        // Optional: navigate or show success message
+    };
+
     const order = [
         {
             name: "Grilled Chicken",
@@ -15,33 +50,76 @@ const ReviewOrder = () => {
     ];
 
     return (
-        <div className="max-w-md mx-auto p-6 bg-base-100 shadow-md rounded-xl">
-            <h1 className="text-2xl font-bold mb-4">Your Order</h1>
+        <main className="container mx-auto px-4 py-8">
+            <div className="max-w-md mx-auto p-6 bg-base-100 shadow-md rounded-xl">
+                <button
+                    className="btn btn-ghost text-sm mb-4"
+                    onClick={() => navigate("/")}
+                >
+                    ← Back
+                </button>
 
-            {order.map((item, idx) => (
-                <div key={idx} className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-4">
-                        <img
-                            src={item.image}
-                            alt={item.name}
-                            className="w-16 h-16 rounded-md object-cover"
-                        />
-                        <div>
-                            <p className="font-semibold">{item.name}</p>
-                            <p className="text-sm text-base-content/70">{item.description}</p>
+                <h1 className="text-2xl font-bold mb-4">Your Order</h1>
+
+                {order.map((item, idx) => (
+                    <div key={idx} className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-4">
+                            <img
+                                src={item.image}
+                                alt={item.name}
+                                className="w-16 h-16 rounded-md object-cover"
+                            />
+                            <div>
+                                <p className="font-semibold">{item.name}</p>
+                                <p className="text-sm text-base-content/70">{item.description}</p>
+                            </div>
                         </div>
+                        <p className="text-lg">{item.quantity} ×</p>
                     </div>
-                    <p className="text-lg">{item.quantity} ×</p>
+                ))}
+
+                <h2 className="text-xl font-semibold mt-6 mb-2">Contact Information</h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <input
+                        type="text"
+                        name="firstName"
+                        placeholder="First Name"
+                        className="input input-bordered w-full"
+                        value={contactInfo.firstName}
+                        onChange={handleChange}
+                    />
+                    <input
+                        type="text"
+                        name="lastName"
+                        placeholder="Last Name"
+                        className="input input-bordered w-full"
+                        value={contactInfo.lastName}
+                        onChange={handleChange}
+                    />
                 </div>
-            ))}
 
-            <h2 className="text-xl font-semibold mt-6 mb-2">Contact Information</h2>
-            <p className="text-base">John Doe</p>
-            <p className="text-base">john@example.com</p>
-            <p className="text-base">+1 (555) 123-4567</p>
+                <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Phone"
+                    className="input input-bordered w-full mt-2"
+                    value={contactInfo.phone}
+                    onChange={handleChange}
+                />
 
-            <button className="btn btn-primary w-full mt-6">Submit Final Order</button>
-        </div>
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    className="input input-bordered w-full mt-2"
+                    value={contactInfo.email}
+                    onChange={handleChange}
+                />
+
+                <button className="btn btn-primary w-full mt-6">Submit Order</button>
+            </div>
+        </main>
     );
 };
 
