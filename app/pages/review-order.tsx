@@ -23,15 +23,29 @@ const ReviewOrder = () => {
         };
 
         // Example POST request
-        await fetch("/api/submit-order", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-        });
+        // await fetch("/api/submit-order", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify(payload),
+        // });
 
         // Optional: navigate or show success message
+        // Show the toast
+        const toast = document.createElement("div");
+        toast.className = "alert alert-success";
+        toast.innerHTML = `
+            <span>🎉 Order submitted successfully!</span>
+          `;
+
+        const toastContainer = document.querySelector(".toast");
+        toastContainer?.appendChild(toast);
+
+        // Remove after 3 seconds
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
     };
 
     const order = [
@@ -52,6 +66,10 @@ const ReviewOrder = () => {
     return (
         <main className="container mx-auto px-4 py-8">
             <div className="max-w-md mx-auto p-6 bg-base-100 shadow-md rounded-xl">
+                <div className="toast toast-top toast-center z-50 fixed">
+                    {/* We’ll insert toast messages here */}
+                </div>
+
                 <button
                     className="btn btn-ghost text-sm mb-4"
                     onClick={() => navigate("/")}
@@ -117,7 +135,7 @@ const ReviewOrder = () => {
                     onChange={handleChange}
                 />
 
-                <button className="btn btn-primary w-full mt-6">Submit Order</button>
+                <button className="btn btn-primary w-full mt-6" onClick={handleSubmit}>Submit Order</button>
             </div>
         </main>
     );
