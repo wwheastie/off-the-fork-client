@@ -2,9 +2,12 @@ import MealOptionCard from "~/components/MealOptionCard";
 import type {Meal} from "~/types/Meal";
 import {useState} from "react";
 import type {OrderItem} from "~/types/OrderItem";
+import {useNavigate} from "react-router";
 
 export function Welcome() {
   const [orderItems, setOrderItems] = useState<Record<string, OrderItem>>({});
+
+    const navigate = useNavigate();
 
   const onChange = (mealId: string, orderItem: OrderItem) => {
     setOrderItems((prev) => {
@@ -21,6 +24,7 @@ export function Welcome() {
     const handleSubmit = () => {
         const selected = Object.values(orderItems).filter(orderItem => orderItem.quantity > 0);
         console.log("Final order:", selected);
+        navigate("review-order")
     };
 
   return (
