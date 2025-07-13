@@ -3,13 +3,18 @@ import type {Meal} from "~/types/Meal";
 import {useState} from "react";
 import type {OrderItem} from "~/types/OrderItem";
 import {useNavigate} from "react-router";
+import type {ReviewOrderItem} from "~/types/ReviewOrderItem";
 
 export function Welcome() {
   const [orderItems, setOrderItems] = useState<Record<string, OrderItem>>({});
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const onChange = (mealId: string, orderItem: OrderItem) => {
+    const hasSelectedMeals = Object.values(orderItems).some(
+        (item) => item.quantity > 0
+    );
+
+    const onChange = (mealId: string, orderItem: OrderItem) => {
     setOrderItems((prev) => {
         const updated = { ...prev };
         if (orderItem.quantity === 0 && orderItem.notes.trim() === "") {
@@ -22,9 +27,26 @@ export function Welcome() {
   };
 
     const handleSubmit = () => {
-        const selected = Object.values(orderItems).filter(orderItem => orderItem.quantity > 0);
+        const selected: (null | ReviewOrderItem)[] = Object.values(orderItems)
+            .filter(orderItem => orderItem.quantity > 0)
+            .map(orderItem => {
+                const meal = mealsData.find(m => m.id === orderItem.mealId);
+                if (!meal) return null; // skip if meal not found
+
+                return {
+                    id: meal.id,
+                    title: meal.title,
+                    description: meal.description,
+                    image: meal.image,
+                    quantity: orderItem.quantity,
+                    notes: orderItem.notes?.trim() || "",
+                    price: meal.price,
+                    totalPrice: meal.price * orderItem.quantity,
+                };
+            })
+            .filter(Boolean);
         console.log("Final order:", selected);
-        navigate("review-order")
+        navigate("review-order", { state: { reviewOrderItems: selected } })
     };
 
   return (
@@ -39,9 +61,13 @@ export function Welcome() {
           ))}
       </div>
 
-      <button className="btn btn-primary mt-4" onClick={handleSubmit}>
-        Review Order
-      </button>
+        <button
+            className="btn btn-primary mt-4"
+            onClick={handleSubmit}
+            disabled={!hasSelectedMeals}
+        >
+            Review Order
+        </button>
     </main>
   );
 }

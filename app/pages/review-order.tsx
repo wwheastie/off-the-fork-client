@@ -1,13 +1,21 @@
 import React, {useState} from "react";
-import {useNavigate} from "react-router";
+import {useLocation, useNavigate} from "react-router";
+import type {ReviewOrderItem} from "~/types/ReviewOrderItem";
 
-const ReviewOrder = () => {
+interface ReviewOrderItemInterface {
+    reviewOrderItems: ReviewOrderItem[];
+}
+
+const ReviewOrder: React.FC<ReviewOrderItemInterface> = () => {
     const [contactInfo, setContactInfo] = useState({
         firstName: "",
         lastName: "",
         email: "",
         phone: "",
     });
+
+    const location = useLocation();
+    const { reviewOrderItems = [] } = location.state || {};
 
     const navigate = useNavigate();
 
@@ -35,9 +43,7 @@ const ReviewOrder = () => {
         // Show the toast
         const toast = document.createElement("div");
         toast.className = "alert alert-success";
-        toast.innerHTML = `
-            <span>🎉 Order submitted successfully!</span>
-          `;
+        toast.innerHTML = `<span>🎉 Order submitted successfully!</span>`;
 
         const toastContainer = document.querySelector(".toast");
         toastContainer?.appendChild(toast);
@@ -79,20 +85,28 @@ const ReviewOrder = () => {
 
                 <h1 className="text-2xl font-bold mb-4">Your Order</h1>
 
-                {order.map((item, idx) => (
+                {reviewOrderItems.map((item: ReviewOrderItem, idx: string) => (
                     <div key={idx} className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-4">
                             <img
                                 src={item.image}
-                                alt={item.name}
+                                alt={item.title}
                                 className="w-16 h-16 rounded-md object-cover"
                             />
                             <div>
-                                <p className="font-semibold">{item.name}</p>
+                                <p className="font-semibold">{item.title}</p>
                                 <p className="text-sm text-base-content/70">{item.description}</p>
+                                {item.notes?.trim() && (
+                                    <p className="text-sm text-base-content/70 italic">
+                                        Notes: {item.notes.trim()}
+                                    </p>
+                                )}
                             </div>
                         </div>
-                        <p className="text-lg">{item.quantity} ×</p>
+                        <div className="ml-auto text-right">
+                            <p className="text-lg whitespace-nowrap">{item.quantity}×</p>
+                            <p className="text-sm italic whitespace-nowrap">${item.totalPrice.toFixed(2)}</p>
+                        </div>
                     </div>
                 ))}
 
