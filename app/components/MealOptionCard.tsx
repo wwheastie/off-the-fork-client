@@ -73,9 +73,9 @@ const MealOptionCard: React.FC<MealOptionCardProps> = ({ meal, quantity, onChang
                         ))}
                     </select>
 
-                    <div className="text-sm text-base-content mt-1 min-h-[1.5rem]">
-                      <span className="flex flex-col md:flex-row md:items-baseline md:whitespace-nowrap gap-x-1">
-                        <span className="font-bold">${totalPrice.toFixed(2)}</span>{" "}
+                    <div className="text-sm text-base-content mt-1 min-h-[1.5rem] ml-auto text-right">
+                      <span className="flex flex-col gap-y-0.5">
+                        <span className="font-bold">${totalPrice.toFixed(2)}</span>
                         <span className="italic">(${price.toFixed(2)} ea.)</span>
                       </span>
                     </div>
@@ -88,7 +88,7 @@ const MealOptionCard: React.FC<MealOptionCardProps> = ({ meal, quantity, onChang
                             onClick={() => setIsModalOpen(true)}
                             type="button"
                         >
-                            Special Notes
+                            Notes
                         </button>
 
                         {noteInput.trim() !== "" && (
