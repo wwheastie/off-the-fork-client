@@ -6,7 +6,7 @@ import {useNavigate} from "react-router";
 import type {ReviewOrderItem} from "~/types/ReviewOrderItem";
 import { getApiUrl } from "~/config/env";
 
-export function Welcome() {
+export function MealsHome() {
   const [orderItems, setOrderItems] = useState<Record<string, OrderItem>>({});
 
   const navigate = useNavigate();
