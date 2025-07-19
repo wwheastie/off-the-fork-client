@@ -1,14 +1,42 @@
 import MealOptionCard from "~/components/MealOptionCard";
 import type {Meal} from "~/types/Meal";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import type {OrderItem} from "~/types/OrderItem";
 import {useNavigate} from "react-router";
 import type {ReviewOrderItem} from "~/types/ReviewOrderItem";
+import { getApiUrl } from "~/config/env";
 
 export function Welcome() {
   const [orderItems, setOrderItems] = useState<Record<string, OrderItem>>({});
 
   const navigate = useNavigate();
+
+    const [meals, setMeals] = useState<Meal[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchMeals = async () => {
+            try {
+                const response = await fetch(getApiUrl("/api/v1/current/meals"));
+
+                console.log(response)
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                setMeals(data);
+            } catch (err) {
+                setError((err as Error).message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchMeals();
+    }, []);
 
     const hasSelectedMeals = Object.values(orderItems).some(
         (item) => item.quantity > 0
@@ -30,14 +58,14 @@ export function Welcome() {
         const selected: (null | ReviewOrderItem)[] = Object.values(orderItems)
             .filter(orderItem => orderItem.quantity > 0)
             .map(orderItem => {
-                const meal = mealsData.find(m => m.id === orderItem.mealId);
+                const meal = meals.find(m => m.id === orderItem.mealId);
                 if (!meal) return null; // skip if meal not found
 
                 return {
                     id: meal.id,
-                    title: meal.title,
+                    title: meal.name,
                     description: meal.description,
-                    image: meal.image,
+                    image: meal.imageUrl,
                     quantity: orderItem.quantity,
                     notes: orderItem.notes?.trim() || "",
                     price: meal.price,
@@ -52,7 +80,7 @@ export function Welcome() {
   return (
     <main className="container mx-auto px-4 py-8">
       <div className="space-y-2">
-          {mealsData.map((meal) => (
+          {meals.map((meal) => (
               <MealOptionCard
                   meal={meal}
                   quantity={orderItems[meal.id]?.quantity || 0}
@@ -71,24 +99,3 @@ export function Welcome() {
     </main>
   );
 }
-
-const mealsData: Meal[] = [
-    {
-        id: "1",
-        title: "Chicken Teriyaki",
-        description: "Served with steamed rice and veggies.",
-        image: "https://cdn.apartmenttherapy.info/image/upload/f_jpg,q_auto:eco,c_fill,g_auto,w_1500,ar_1:1/k%2FPhoto%2FRecipes%2F2024-05-chicken-teriyaki-190%2Fchicken-teriyaki-190-171-horizontal",
-        tags: ["Gluten-Free", "Protein-Packed"],
-        price: 13,
-        notes: ""
-    },
-    {
-        id: "2",
-        title: "Vegan Curry",
-        description: "A hearty curry with chickpeas and sweet potato.",
-        image: "https://www.noracooks.com/wp-content/uploads/2022/08/vegan-curry-6.jpg",
-        tags: ["Vegan", "Gluten-Free"],
-        price: 15.15,
-        notes: ""
-    }
-];

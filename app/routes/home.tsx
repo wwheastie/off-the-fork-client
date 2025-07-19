@@ -1,10 +1,11 @@
 import type { Route } from "./+types/home";
 import { Welcome } from "~/pages/welcome";
+import { config } from "~/config/env";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Off the Fork" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: config.app.title },
+    { name: "description", content: config.app.description },
   ];
 }
 

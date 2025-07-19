@@ -24,6 +24,34 @@ Install the dependencies:
 npm install
 ```
 
+### Environment Configuration
+
+Copy the example environment file and configure it for your environment:
+
+```bash
+# Copy the example file
+cp env.example .env.development
+
+# For production, copy and modify as needed
+cp env.example .env.production
+```
+
+#### Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `VITE_API_BASE_URL` | Backend API base URL | `http://localhost:8080` |
+| `VITE_API_MEALS_ENDPOINT` | Meals API endpoint | `/api/v1/current/meals` |
+| `VITE_API_SUBMIT_ORDER_ENDPOINT` | Order submission endpoint | `/api/submit-order` |
+| `VITE_DEV_PORT` | Development server port | `5173` |
+| `VITE_TOAST_DURATION_MS` | Toast notification duration | `3000` |
+| `VITE_MAX_MEAL_QUANTITY` | Maximum meal quantity selector | `21` |
+| `VITE_APP_TITLE` | Application title | `Off the Fork` |
+| `VITE_APP_DESCRIPTION` | Application description | `Welcome to React Router!` |
+| `VITE_DEFAULT_MEAL_IMAGE` | Default meal image URL | CDN URL |
+| `VITE_GOOGLE_FONTS_URL` | Google Fonts URL | `https://fonts.googleapis.com` |
+| `VITE_GOOGLE_FONTS_STATIC_URL` | Google Fonts static URL | `https://fonts.gstatic.com` |
+
 ### Development
 
 Start the development server with HMR:
@@ -32,7 +60,7 @@ Start the development server with HMR:
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+Your application will be available at `http://localhost:${VITE_DEV_PORT}`.
 
 ## Building for Production
 

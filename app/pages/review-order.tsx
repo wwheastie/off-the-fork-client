@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {useLocation, useNavigate} from "react-router";
 import type {ReviewOrderItem} from "~/types/ReviewOrderItem";
+import { config } from "~/config/env";
 
 interface ReviewOrderItemInterface {
     reviewOrderItems: ReviewOrderItem[];
@@ -23,6 +24,8 @@ const ReviewOrder: React.FC<ReviewOrderItemInterface> = () => {
         const { name, value } = e.target;
         setContactInfo((prev) => ({ ...prev, [name]: value }));
     };
+
+    const total: number = reviewOrderItems.reduce((sum: number, item: { totalPrice: number; }) => sum + item.totalPrice, 0);
 
     const handleSubmit = async () => {
         const payload = {
@@ -51,20 +54,20 @@ const ReviewOrder: React.FC<ReviewOrderItemInterface> = () => {
         // Remove after 3 seconds
         setTimeout(() => {
             toast.remove();
-        }, 3000);
+        }, config.ui.toastDuration);
     };
 
     const order = [
         {
             name: "Grilled Chicken",
             description: "with vegetables",
-            image: "https://cdn-icons-png.flaticon.com/512/1377/1377194.png",
+            image: config.ui.defaultMealImage,
             quantity: 1,
         },
         {
             name: "Pasta Primavera",
             description: "with parmesan",
-            image: "https://cdn-icons-png.flaticon.com/512/1377/1377194.png",
+            image: config.ui.defaultMealImage,
             quantity: 2,
         },
     ];
@@ -109,6 +112,8 @@ const ReviewOrder: React.FC<ReviewOrderItemInterface> = () => {
                         </div>
                     </div>
                 ))}
+
+                <div className="text-lg whitespace-nowrap font-bold italic ml-auto text-right">Total: ${total.toFixed(2)}</div>
 
                 <h2 className="text-xl font-semibold mt-6 mb-2">Contact Information</h2>
 
