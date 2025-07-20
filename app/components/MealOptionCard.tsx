@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import CircularTag from "~/components/CircularTag";
 import type {Meal} from "~/types/Meal";
 import type {OrderItem} from "~/types/OrderItem";
+import { config } from "~/config/env";
 
 type MealOptionCardProps = {
     meal: Meal;
@@ -10,8 +11,8 @@ type MealOptionCardProps = {
 };
 
 const MealOptionCard: React.FC<MealOptionCardProps> = ({ meal, quantity, onChange }) => {
-    const { id, image, title, description, tags, price, notes } = meal;
-    const [noteInput, setNoteInput] = useState(notes);
+    const { id, imageUrl, name, description, tags, price, notes } = meal;
+    const [noteInput, setNoteInput] = useState(notes ?? "");
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
@@ -46,20 +47,22 @@ const MealOptionCard: React.FC<MealOptionCardProps> = ({ meal, quantity, onChang
             <div className="flex items-start p-4 gap-4">
                 {/* Image on the left */}
                 <img
-                    src={image}
-                    alt={title}
+                    src={imageUrl}
+                    alt={name}
                     className="w-24 h-24 object-cover rounded-lg"
                 />
 
                 {/* Content on the middle */}
                 <div className="flex-1">
-                    <h2 className="text-lg font-bold mb-1">{title}</h2>
+                    <h2 className="text-lg font-bold mb-1">{name}</h2>
                     <p className="text-sm text-base-content/70">{description}</p>
-                    <div className="flex flex-wrap gap-1 mt-1">
-                        {tags.map((tag) => (
-                            <CircularTag name={tag} />
-                        ))}
-                    </div>
+                    {tags && (
+                        <div className="flex flex-wrap gap-1 mt-1">
+                            {tags.map((tag) => (
+                                <CircularTag key={tag} name={tag} />
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 <div className="flex flex-col items-end w-24">
@@ -68,7 +71,7 @@ const MealOptionCard: React.FC<MealOptionCardProps> = ({ meal, quantity, onChang
                         value={quantity}
                         onChange={handleQuantityChange}
                     >
-                        {Array.from({ length: 21 }, (_, i) => (
+                        {Array.from({ length: config.ui.maxMealQuantity }, (_, i) => (
                             <option key={i} value={i}>{i}</option>
                         ))}
                     </select>
@@ -109,7 +112,7 @@ const MealOptionCard: React.FC<MealOptionCardProps> = ({ meal, quantity, onChang
                 className="bg-base-100 rounded-lg p-6 w-full max-w-md mx-4 shadow-xl relative"
                 onClick={(e) => e.stopPropagation()}
             >
-                <h3 className="text-lg font-bold mb-4">Special Notes for {title}</h3>
+                <h3 className="text-lg font-bold mb-4">Special Notes for {name}</h3>
                 <textarea
                     className="textarea textarea-bordered w-full mb-4"
                     rows={4}
