@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "react-router build",
+    "local": "cross-env VITE_MEAL_SERVICE=mock react-router dev",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc"
@@ -14,7 +15,8 @@
     "isbot": "^5.1.27",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router": "^7.5.3"
+    "react-router": "^7.5.3",
+    "react-router-dom": "^7.7.0"
   },
   "devDependencies": {
     "@react-router/dev": "^7.5.3",
@@ -22,6 +24,7 @@
     "@types/node": "^20",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "cross-env": "^7.0.3",
     "daisyui": "^5.0.43",
     "tailwindcss": "^4.1.4",
     "typescript": "^5.8.3",
