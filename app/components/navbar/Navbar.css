@@ -1,0 +1,47 @@
+.navbar-container {
+  background-color: white;
+  min-height: 60px;
+  position: fixed;
+  z-index: 2;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  border: 0.5px solid rgba(128, 128, 128, 0.25);
+
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-top: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  max-width: 1100px;
+
+  letter-spacing: 0.5px;
+}
+.navbar-contents {
+}
+
+.menu-button {
+  width: 70px;
+  position: relative;
+}
+.menu-bar {
+  position: absolute;
+  height: 3px;
+  border-radius: 1px;
+  width: 60%;
+  top: 20%;
+  left: 20%;
+  background-color: rgba(0, 0, 0, 0.65);
+}
+
+.middle-bar {
+  top: 45%;
+}
+
+.bottom-bar {
+  top: 70%;
+}
