@@ -11,6 +11,9 @@
 .landing-content-container {
   justify-content: center;
   align-items: center;
+  /* border: 2px solid green; */
+  width: 100%;
+  max-width: 1300px;
 }
 
 .landing-content {
@@ -19,11 +22,19 @@
   max-height: 400px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
+  /* border: 1px solid red; */
 }
 @media screen and (min-width: 48rem) {
   .landing-picture {
     border: 1px solid gray;
     border-bottom-left-radius: 10px;
+  }
+  .landing-container {
+    height: auto;
+    min-height: 75vh;
+  }
+  .landing-content {
+    padding-top: 50px;
   }
 }

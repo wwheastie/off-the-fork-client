@@ -5,19 +5,19 @@ import { Button } from "@/components/ui/button";
 export default function LandingContent() {
   const items = [
     {
-      title: "Best Solution for eating healthy without worrying about cooking",
+      title: "Best solution for eating healthy without worrying about cooking.",
     },
     {
       title: "Start now, schedule whenever you want",
     },
   ];
   return (
-    <div className="landing-content">
-      <div className="text-3xl font-extrabold text-orange-600">
+    <div className="p-2 landing-content">
+      <div className="text-3xl md:text-4xl font-extrabold text-orange-600">
         The Best Subscription to Eat Healthy
       </div>
-      <div className="text-xl">
-        A subscription 100% adopted for you{" "}
+      <div className="text-xl font-bold">
+        A Subscription 100% Adopted for You<span className="md:hidden">.</span>
         <span className="hidden md:block">
           by high-quality food cooked by our specialized chefs.
         </span>
@@ -31,7 +31,7 @@ export default function LandingContent() {
             width={50}
             height={10}
             priority
-            className=" w-6"
+            className="w-auto h-8"
           />
           <div>{item.title}</div>
         </div>

@@ -19,7 +19,7 @@ export default function Landing() {
             fill
             className="object-cover"
             priority
-            sizes="(min-width: 1024px) 540px, (min-width: 768px) 50vw, 100vw"
+            sizes="(min-width: 1024px) 540px, (min-width: 768px) 60vw, 100vw"
           />
         </div>
       </div>
