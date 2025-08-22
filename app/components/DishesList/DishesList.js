@@ -9,7 +9,7 @@ export default function DishesList() {
         <div className="text-2xl md:text-3xl text-black font-bold mb-2">
           Our Dishes
         </div>
-        <div className="text-md md:text-xl">
+        <div className="text-md md:text-xl mb-2">
           We keep a constant rotation of products to keep our options fresh
         </div>
       </div>

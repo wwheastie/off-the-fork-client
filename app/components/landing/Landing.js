@@ -1,7 +1,7 @@
 import React from "react";
 import "./Landing.css";
 import Image from "next/image";
-import Hero from "./Hero.png"; // ✅ import the image
+import Hero from "./Hero.webp"; // ✅ import the image
 import LandingContent from "./LandingContent";
 
 export default function Landing() {
