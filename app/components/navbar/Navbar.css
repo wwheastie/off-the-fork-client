@@ -23,6 +23,16 @@
 }
 .navbar-contents {
 }
+/* Mobile menu */
+.mobile-nav {
+  position: absolute;
+  left: 0;
+  top: 60px;
+  width: 100vw;
+  height: 80vh;
+  background: red;
+  z-index: 3;
+}
 
 .menu-button {
   width: 70px;
