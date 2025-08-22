@@ -4,8 +4,8 @@ import { CardComponent } from "../Card/CardComponent";
 
 export default function DishesList() {
   return (
-    <div className="component-container">
-      <div className="">
+    <div className="">
+      <div className="component-container">
         <div className="text-2xl md:text-3xl text-black font-bold mb-2">
           Our Dishes
         </div>

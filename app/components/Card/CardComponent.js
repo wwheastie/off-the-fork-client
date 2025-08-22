@@ -17,7 +17,7 @@ import SingleCard from "./SingleCard";
 
 export function CardComponent() {
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:p-3">
+    <div className="component-container md:w-full grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:p-3 ">
       {" "}
       <SingleCard />
       <SingleCard />
