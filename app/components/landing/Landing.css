@@ -36,5 +36,7 @@
   }
   .landing-content {
     padding-top: 50px;
+    min-height: 500px;
+    justify-content: center;
   }
 }

@@ -112,11 +112,23 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+.component-container {
+  padding-top: 50px;
+  width: 90%;
+  margin: 0 auto;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@media screen and (min-width: 48rem) {
+  .component-container {
+    width: 90%;
   }
 }
