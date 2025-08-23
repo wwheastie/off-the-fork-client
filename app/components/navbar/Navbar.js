@@ -53,14 +53,19 @@ export default function Navbar() {
               <div className="hidden md:block">Cart</div>{" "}
             </Link>
           </Button>
-          <div className="menu-button md:hidden">
+          <div
+            className="menu-button md:hidden"
+            onClick={() => {
+              setMobileMenu(!mobileMenu);
+            }}
+          >
             <div className="menu-bar top-bar"></div>
             <div className="menu-bar middle-bar"></div>
             <div className="menu-bar bottom-bar"></div>
           </div>
         </div>
       </div>{" "}
-      {mobileMenu && <MobileMenu />}
+      <div></div>
     </>
   );
 }

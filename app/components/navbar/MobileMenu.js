@@ -2,5 +2,5 @@ import React from "react";
 import "./Navbar.css";
 
 export default function MobileMenu() {
-  return <div className="mobile-nav">MobileMenu???</div>;
+  return <div className="mobile-nav hidden md:block">MobileMenu???</div>;
 }
