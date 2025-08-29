@@ -2,6 +2,7 @@
 import * as React from "react";
 
 import SingleCard from "./SingleCard";
+import SingleCardV2 from "./SingleCardV2";
 
 export function CardComponent({ data }) {
   console.log("card component:", data);
@@ -10,6 +11,7 @@ export function CardComponent({ data }) {
       {" "}
       {data?.map((meal) => (
         <div key={meal.id}>
+          {/* <SingleCardV2 info={meal} /> */}
           <SingleCard info={meal} />
         </div>
       ))}
