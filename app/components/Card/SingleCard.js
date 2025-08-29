@@ -1,4 +1,5 @@
-import React from "react";
+"use client ";
+import React, { useState } from "react";
 import {
   Card,
   CardDescription,
@@ -15,6 +16,8 @@ import { Input } from "@/components/ui/input";
 
 export default function SingleCard({ info }) {
   const buttonInfo = { title: "Add" };
+  const [count, setCount] = useState(1);
+  const [showCount, setShowCount] = useState(false);
 
   return (
     <div className="w-full">
@@ -70,9 +73,18 @@ export default function SingleCard({ info }) {
                   height={10}
                   priority
                   className="w-auto h-3 cursor-pointer"
+                  onClick={() => {
+                    if (!showCount) {
+                      setShowCount(true);
+                      return;
+                    } else {
+                      let newCount = count + 1;
+                      setCount(newCount);
+                    }
+                  }}
                 />{" "}
               </div>
-              <Input className="w-8" />
+              {showCount && <Input className="w-8" type="number" />}
             </div>
           </div>
         </CardHeader>
