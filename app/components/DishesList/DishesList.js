@@ -1,10 +1,11 @@
 import React from "react";
 import "./DishesList.css";
 import { CardComponent } from "../Card/CardComponent";
+import { SkeletonCard } from "../Skeleton/skeleton";
 
-export default function DishesList({ info }) {
+export default function DishesList({ info, loading }) {
   return (
-    <div className="">
+    <div className="mt-20">
       <div className="component-container">
         <div className="text-2xl md:text-3xl text-black font-bold mb-2">
           Our Dishes
@@ -15,7 +16,18 @@ export default function DishesList({ info }) {
           Remember to keep an eye out.
         </div>
       </div>
-      <CardComponent data={info?.mealsList} />
+      {loading ? (
+        <div className="component-container md:w-full grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:p-3">
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+          <SkeletonCard />
+        </div>
+      ) : (
+        <CardComponent data={info?.mealsList} />
+      )}
     </div>
   );
 }

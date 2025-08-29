@@ -5,6 +5,7 @@ import Landing from "./components/landing/Landing";
 
 export default function Home() {
   const [meals, setMeals] = useState(null);
+  const [loadingState, setLoadingState] = useState(true);
   useEffect(() => {
     async function fetchMeals() {
       try {
@@ -14,7 +15,8 @@ export default function Home() {
         const data = await res.json();
         let newData = { timeStamp: "today", mealsList: data };
         setMeals(newData);
-        console.log("data fetched:", data);
+        setLoadingState(false);
+        // console.log("data fetched:", data);
       } catch (err) {
         console.error("Error fetching data:", err);
       }
@@ -26,7 +28,7 @@ export default function Home() {
   return (
     <div>
       <Landing />
-      <DishesList info={meals} />
+      <DishesList info={meals} loading={loadingState} />
     </div>
   );
 }

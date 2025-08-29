@@ -1,23 +1,21 @@
 import React from "react";
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "../../../components/ui/card";
 import { AspectRatio } from "../../../components/ui/aspect-ratio";
 import Image from "next/image";
-import Hero from "./Hero.png";
+
 import infoicon from "./infoicon.png";
 import plusicon from "./plusicon.png";
 import { Badge } from "../../../components/ui/badge";
-import { Button } from "@/components/ui/button";
-import StandardButton from "../StandardButton/StandardButton";
+import { Input } from "@/components/ui/input";
 
 export default function SingleCard({ info }) {
   const buttonInfo = { title: "Add" };
+
   return (
     <div className="w-full">
       {" "}
@@ -63,22 +61,21 @@ export default function SingleCard({ info }) {
                 Nutritional Details
               </div>
             </div>{" "}
-            <div className="bg-orange-500 rounded-full w-6 h-6 flex justify-center items-center align-center">
-              <Image
-                src={plusicon}
-                alt="Site Logo"
-                width={50}
-                height={10}
-                priority
-                className="w-auto h-3"
-              />{" "}
+            <div className="flex items-center gap-2">
+              <div className="bg-orange-500 rounded-full w-6 h-6 flex justify-center items-center align-center">
+                <Image
+                  src={plusicon}
+                  alt="Site Logo"
+                  width={50}
+                  height={10}
+                  priority
+                  className="w-auto h-3 cursor-pointer"
+                />{" "}
+              </div>
+              <Input className="w-8" />
             </div>
           </div>
         </CardHeader>
-        {/* <CardFooter className=" flex justify-between">
-          <div className="bold text-lg">{info.price}$</div>
-          <StandardButton info={buttonInfo} />
-        </CardFooter> */}
       </Card>
     </div>
   );
