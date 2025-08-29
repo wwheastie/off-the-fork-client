@@ -13,8 +13,11 @@ import Hero from "./Hero.png";
 import infoicon from "./infoicon.png";
 import plusicon from "./plusicon.png";
 import { Badge } from "../../../components/ui/badge";
+import { Button } from "@/components/ui/button";
+import StandardButton from "../StandardButton/StandardButton";
 
-export default function SingleCard() {
+export default function SingleCard({ info }) {
+  const buttonInfo = { title: "Add" };
   return (
     <div className="w-full">
       {" "}
@@ -22,29 +25,27 @@ export default function SingleCard() {
         <CardHeader>
           <AspectRatio ratio={16 / 9} className="bg-muted relative">
             <Image
-              src={Hero}
+              src={info?.imageUrl}
               alt="Photo by Drew Beamer"
               fill
               className="h-full w-full rounded-md object-cover"
             />
             <div className="absolute bottom-3 left-3 flex max-w-full flex-wrap gap-2">
-              <Badge className="border border-white/10 bg-white text-black backdrop-blur-sm">
-                Gluten Free
-              </Badge>
-              <Badge className="border border-white/10 bg-white text-black backdrop-blur-sm">
-                Vegetarian
-              </Badge>
-              <Badge className="border border-white/10 bg-white text-black backdrop-blur-sm">
-                Dairy Free
-              </Badge>
+              {info?.tags.map((tag, index) => (
+                <Badge
+                  key={index}
+                  className="border border-white/10 bg-white text-black backdrop-blur-sm"
+                >
+                  {tag}
+                </Badge>
+              ))}
             </div>
           </AspectRatio>
-          <CardTitle className="text-md md:text-lg text-left">
-            Dish name goes here
+          <CardTitle className="text-md md:text-lg text-left  flex justify-between">
+            <>{info?.name}</>
           </CardTitle>
           <CardDescription className="text-sm text-left">
-            This is a short paragraph to give a small description of the dish ,
-            ingredients and anything that could be useful to users.
+            {info?.description}
           </CardDescription>{" "}
           <div className="flex justify-between">
             <div className="flex gap-2">
@@ -73,6 +74,10 @@ export default function SingleCard() {
             </div>
           </div>
         </CardHeader>
+        <CardFooter className=" flex justify-between">
+          <div className="bold text-lg">{info.price}$</div>
+          <StandardButton info={buttonInfo} />
+        </CardFooter>
       </Card>
     </div>
   );

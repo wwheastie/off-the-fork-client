@@ -2,7 +2,7 @@ import React from "react";
 import "./DishesList.css";
 import { CardComponent } from "../Card/CardComponent";
 
-export default function DishesList() {
+export default function DishesList({ info }) {
   return (
     <div className="">
       <div className="component-container">
@@ -15,7 +15,7 @@ export default function DishesList() {
           Remember to keep an eye out.
         </div>
       </div>
-      <CardComponent />
+      <CardComponent data={info?.mealsList} />
     </div>
   );
 }

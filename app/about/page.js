@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 
 // rfc
@@ -8,12 +8,12 @@ export default function About() {
     async function fetchMeals() {
       try {
         const res = await fetch("/api/meals", { cache: "no-store" });
-        if (!res.ok) throw new Error("Failed to fetch meals");
+        if (!res.ok) throw new Error("Failed to fetch data");
 
         const data = await res.json();
-        console.log("Meals fetched:", data);
+        console.log("data fetched:", data);
       } catch (err) {
-        console.error("Error fetching meals:", err);
+        console.error("Error fetching data:", err);
       }
     }
 

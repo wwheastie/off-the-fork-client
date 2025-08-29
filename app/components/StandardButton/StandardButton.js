@@ -4,7 +4,7 @@ import React from "react";
 export default function StandardButton({ info }) {
   return (
     <div>
-      <Button>{info.title}</Button>
+      <Button className="bg-green-600">{info.title}</Button>
     </div>
   );
 }
