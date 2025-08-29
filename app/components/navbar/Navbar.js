@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Navbar.css";
 import logo from "./logo.png";
 import cart from "./shopping-cart-white.png";
@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../../../components/ui/button";
 import MobileMenu from "./MobileMenu";
+import { GlobalContext } from "@/app/context/GlobalContext";
 
 const links = [
   { name: "Our Dishes", link: "/menu" },
@@ -15,6 +16,7 @@ const links = [
 
 export default function Navbar() {
   const [mobileMenu, setMobileMenu] = useState(false);
+  const { x } = useContext(GlobalContext);
   return (
     <>
       {" "}
