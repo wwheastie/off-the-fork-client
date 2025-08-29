@@ -41,8 +41,9 @@ export default function SingleCard({ info }) {
               ))}
             </div>
           </AspectRatio>
-          <CardTitle className="text-md md:text-lg text-left  flex justify-between">
-            <>{info?.name}</>
+          <CardTitle className="text-md md:text-lg text-left flex justify-between">
+            <div>{info?.name}</div>
+            <div>{info?.price}$</div>
           </CardTitle>
           <CardDescription className="text-sm text-left">
             {info?.description}
@@ -74,10 +75,10 @@ export default function SingleCard({ info }) {
             </div>
           </div>
         </CardHeader>
-        <CardFooter className=" flex justify-between">
+        {/* <CardFooter className=" flex justify-between">
           <div className="bold text-lg">{info.price}$</div>
           <StandardButton info={buttonInfo} />
-        </CardFooter>
+        </CardFooter> */}
       </Card>
     </div>
   );
