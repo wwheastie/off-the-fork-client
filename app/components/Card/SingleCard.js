@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Card,
   CardDescription,
@@ -13,55 +13,77 @@ import infoicon from "./infoicon.png";
 import plusicon from "./plusicon.png";
 import { Badge } from "../../../components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { GlobalContext } from "@/app/context/GlobalContext";
 
 export default function SingleCard({ info }) {
+  const { setCartCount } = useContext(GlobalContext);
   const [qty, setQty] = useState(1);
   const [showQty, setShowQty] = useState(false);
-  const MAX = 9; // still "smaller than 10"
+  const prevQtyRef = useRef(1);
+  const MAX = 9;
+
+  const applyDelta = (nextQty) => {
+    const prev = Number(prevQtyRef.current || 1);
+    const next = Number(nextQty || 0);
+    const delta = next - prev;
+    if (delta !== 0) setCartCount((c) => Math.max(0, c + delta));
+    prevQtyRef.current = next;
+  };
+  const atMax = Number(qty || 1) >= MAX; // ✅ define atMax
 
   const revealOrIncrement = () => {
     if (!showQty) {
       setShowQty(true);
+      // first reveal doesn’t change qty (still 1), so no delta
+      prevQtyRef.current = 1;
       return;
     }
-    setQty((prev) => Math.min(MAX, Number(prev || 1) + 1));
+    if (atMax) return; // ✅ no more increments
+    setQty((prev) => {
+      const base = Number(prev || 1);
+      const next = Math.min(MAX, base + 1);
+      applyDelta(next);
+      return next;
+    });
   };
 
   const hideInputReset = () => {
-    // Hide the input and reset qty to 1 for the next reveal
+    // user removed the item: decrease cart by current qty then hide
+    applyDelta(0);
     setShowQty(false);
     setQty(1);
+    prevQtyRef.current = 1; // reset baseline
   };
 
   const handleChange = (e) => {
     const raw = e.target.value;
-
-    // allow temporary empty while typing
     if (raw === "") {
+      // let user clear temporarily; don’t change cart until they settle
       setQty("");
       return;
     }
-
     const n = Math.floor(Number(raw));
     if (Number.isNaN(n)) return;
 
-    // If user decrements to 0 or types <= 0 → hide the input
     if (n <= 0) {
       hideInputReset();
       return;
     }
-
-    // Clamp to [1, MAX]
-    setQty(Math.min(MAX, n));
+    const clamped = Math.min(MAX, n);
+    setQty(clamped);
+    applyDelta(clamped);
   };
 
   const handleBlur = () => {
-    // resolve empty back to 1
-    if (qty === "" || Number(qty) < 1) setQty(1);
+    if (qty === "" || Number(qty) < 1) {
+      setQty(1);
+      // if empty -> 1, adjust delta back to 1
+      applyDelta(1);
+    }
   };
 
   const handleKeyDown = (e) => {
-    // If they press ArrowDown at 1 (or empty treated as 1), hide
+    // If user tries to ArrowDown at 1, hide input instead of going to 0/negative
     if (e.key === "ArrowDown" || e.key === "Down") {
       const current = Number(qty || 1);
       if (current <= 1) {
@@ -70,8 +92,6 @@ export default function SingleCard({ info }) {
       }
     }
   };
-
-  const atMax = Number(qty || 1) >= MAX;
 
   return (
     <div className="w-full">

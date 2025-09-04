@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/navbar/Navbar";
 import { Providers } from "./providers";
+import Footer from "./footer/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
           <Navbar />
 
           {children}
+          <Footer brand={"Off the Fork"} />
         </Providers>
       </body>
     </html>

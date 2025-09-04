@@ -16,7 +16,7 @@ const links = [
 
 export default function Navbar() {
   const [mobileMenu, setMobileMenu] = useState(false);
-  const { x } = useContext(GlobalContext);
+  const { headerLinks, cartCount } = useContext(GlobalContext);
   return (
     <>
       {" "}
@@ -52,7 +52,9 @@ export default function Navbar() {
             />
             <Link href={"/"}>
               {" "}
-              <div className="hidden md:block">Cart</div>{" "}
+              <div className="hidden md:block">
+                Cart <span>{cartCount > 0 && `(${cartCount})`} </span>{" "}
+              </div>{" "}
             </Link>
           </Button>
           <div

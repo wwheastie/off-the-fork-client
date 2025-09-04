@@ -6,7 +6,8 @@ export const GlobalContext = createContext();
 
 // Create a provider
 export function GlobalProvider({ children }) {
-  const [unreadCount, setUnreadCount] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
+  const [cart, setCart] = useState([]);
 
   const websiteInfo = {
     // mainColor: "#169873",
@@ -31,15 +32,16 @@ export function GlobalProvider({ children }) {
     },
   ];
   let x = "hello";
+
   return (
     <GlobalContext.Provider
       value={{
-        unreadCount,
-        setUnreadCount,
+        cartCount,
+        setCartCount,
         headerLinks,
         websiteInfo,
-
-        x,
+        cart,
+        setCart,
       }}
     >
       {children}
