@@ -1,13 +1,68 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import image1 from "./logo.png";
+
 // Create context
 export const GlobalContext = createContext();
 
+// Safe readers
+const readCartCount = () => {
+  if (typeof window === "undefined") return 0;
+  const raw = localStorage.getItem("cartCount");
+  const n = parseInt(raw, 10);
+  return Number.isFinite(n) ? n : 0;
+};
+
+const readCart = () => {
+  if (typeof window === "undefined") return [];
+  const raw = localStorage.getItem("cart");
+  try {
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+};
+
 // Create a provider
 export function GlobalProvider({ children }) {
-  const [cartCount, setCartCount] = useState(0);
-  const [cart, setCart] = useState([]);
+  // Initialize from localStorage (client only)
+  const [cartCount, setCartCount] = useState(readCartCount);
+  const [cart, setCart] = useState(readCart);
+
+  // Write-through on changes
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem("cartCount", String(cartCount));
+  }, [cartCount]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
+  // Cross-tab sync (optional but handy)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const onStorage = (e) => {
+      if (e.storageArea !== localStorage) return;
+
+      if (e.key === "cartCount" && e.newValue != null) {
+        const n = parseInt(e.newValue, 10);
+        if (Number.isFinite(n)) setCartCount(n);
+      }
+      if (e.key === "cart" && e.newValue != null) {
+        try {
+          const next = JSON.parse(e.newValue);
+          if (Array.isArray(next)) setCart(next);
+        } catch {
+          /* ignore bad JSON */
+        }
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
 
   const websiteInfo = {
     // mainColor: "#169873",
@@ -31,21 +86,21 @@ export function GlobalProvider({ children }) {
       subLinks: [],
     },
   ];
-  let x = "hello";
+
+  const value = useMemo(
+    () => ({
+      cartCount,
+      setCartCount,
+      headerLinks,
+      websiteInfo,
+      cart,
+      setCart,
+    }),
+    [cartCount, headerLinks, websiteInfo, cart]
+  );
 
   return (
-    <GlobalContext.Provider
-      value={{
-        cartCount,
-        setCartCount,
-        headerLinks,
-        websiteInfo,
-        cart,
-        setCart,
-      }}
-    >
-      {children}
-    </GlobalContext.Provider>
+    <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
   );
 }
 
