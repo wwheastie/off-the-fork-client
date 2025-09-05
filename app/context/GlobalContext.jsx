@@ -24,6 +24,29 @@ const readCart = () => {
   }
 };
 
+const websiteInfo = {
+  // mainColor: "#169873",
+  mainColor: "#169873c0",
+  secondaryColor: "#44ABFF",
+  AlternateColor1: "#E3F0FF",
+  AlternateColor2: "#6A7798",
+  light: "#FFFFFF",
+  dark: "#000000",
+  title: "",
+  mainLine: "",
+  tagLine: "",
+  logo: image1,
+};
+
+const headerLinks = [
+  {
+    name: "Home",
+    Link: "/",
+    case: "all",
+    subLinks: [],
+  },
+];
+
 // Create a provider
 export function GlobalProvider({ children }) {
   // Initialize from localStorage (client only)
@@ -64,39 +87,15 @@ export function GlobalProvider({ children }) {
     return () => window.removeEventListener("storage", onStorage);
   }, []);
 
-  const websiteInfo = {
-    // mainColor: "#169873",
-    mainColor: "#169873c0",
-    secondaryColor: "#44ABFF",
-    AlternateColor1: "#E3F0FF",
-    AlternateColor2: "#6A7798",
-    light: "#FFFFFF",
-    dark: "#000000",
-    title: "",
-    mainLine: "",
-    tagLine: "",
-    logo: image1,
-  };
-
-  const headerLinks = [
-    {
-      name: "Home",
-      Link: "/",
-      case: "all",
-      subLinks: [],
-    },
-  ];
-
   const value = useMemo(
     () => ({
       cartCount,
       setCartCount,
-      headerLinks,
-      websiteInfo,
+
       cart,
       setCart,
     }),
-    [cartCount, headerLinks, websiteInfo, cart]
+    [cartCount, cart]
   );
 
   return (

@@ -16,31 +16,75 @@ import { Input } from "@/components/ui/input";
 import { GlobalContext } from "@/app/context/GlobalContext";
 
 export default function SingleCard({ info }) {
-  const { setCartCount } = useContext(GlobalContext);
-  const [qty, setQty] = useState(1);
-  const [showQty, setShowQty] = useState(false);
-  const prevQtyRef = useRef(1);
+  const { setCartCount, setCart, cart } = useContext(GlobalContext);
+
+  // Start from the quantity provided by parent (derived from cart)
+  const initialQty = Number(info?.quantity ?? 0);
+  const [qty, setQty] = useState(initialQty);
+  const [showQty, setShowQty] = useState(initialQty > 0);
+  const prevQtyRef = useRef(initialQty);
   const MAX = 9;
 
+  // Build a "core" meal object without the quantity field
+  const { quantity: _omit, ...mealCore } = info ?? {};
+  const mealId = info?.id ?? info?.mealId; // adjust if your id key differs
+
+  // Helpers to mutate the cart by id
+  const addNCopies = (n) => {
+    if (n <= 0) return;
+    setCart((prev) => [...prev, ...Array(n).fill(mealCore)]);
+  };
+
+  const removeNCopiesById = (n) => {
+    if (n <= 0) return;
+    setCart((prev) => {
+      let toRemove = n;
+      // remove the first N items that match this meal's id (stable criteria)
+      return prev.filter((item) => {
+        const sameId = (item?.id ?? item?.mealId) === mealId; // adjust matching logic if needed
+        if (sameId && toRemove > 0) {
+          toRemove -= 1;
+          return false; // drop this occurrence
+        }
+        return true;
+      });
+    });
+  };
+
+  // One function to apply a new qty: updates cartCount and cart together
   const applyDelta = (nextQty) => {
-    const prev = Number(prevQtyRef.current || 1);
+    const prev = Number(prevQtyRef.current || 0);
     const next = Number(nextQty || 0);
     const delta = next - prev;
-    if (delta !== 0) setCartCount((c) => Math.max(0, c + delta));
+
+    if (delta !== 0) {
+      // update count
+      setCartCount((c) => Math.max(0, c + delta));
+
+      // update cart items (add or remove delta copies)
+      if (delta > 0) addNCopies(delta);
+      else removeNCopiesById(Math.abs(delta));
+    }
+
     prevQtyRef.current = next;
   };
-  const atMax = Number(qty || 1) >= MAX; // ✅ define atMax
+
+  const atMax = Number(qty || 0) >= MAX;
 
   const revealOrIncrement = () => {
     if (!showQty) {
+      // First click: reveal and set qty to 1 ⇒ delta = 1 - 0
       setShowQty(true);
-      // first reveal doesn’t change qty (still 1), so no delta
-      prevQtyRef.current = 1;
+      setQty(1);
+      prevQtyRef.current = 0; // baseline so first click counts as +1
+      applyDelta(1);
       return;
     }
-    if (atMax) return; // ✅ no more increments
+
+    if (atMax) return;
+
     setQty((prev) => {
-      const base = Number(prev || 1);
+      const base = Number(prev || 0);
       const next = Math.min(MAX, base + 1);
       applyDelta(next);
       return next;
@@ -48,17 +92,16 @@ export default function SingleCard({ info }) {
   };
 
   const hideInputReset = () => {
-    // user removed the item: decrease cart by current qty then hide
+    // Set qty to 0 (remove all copies of this meal), then hide
     applyDelta(0);
     setShowQty(false);
-    setQty(1);
-    prevQtyRef.current = 1; // reset baseline
+    setQty(0);
+    prevQtyRef.current = 0;
   };
 
   const handleChange = (e) => {
     const raw = e.target.value;
     if (raw === "") {
-      // let user clear temporarily; don’t change cart until they settle
       setQty("");
       return;
     }
@@ -76,16 +119,17 @@ export default function SingleCard({ info }) {
 
   const handleBlur = () => {
     if (qty === "" || Number(qty) < 1) {
+      // If user clears, snap back to 1 and adjust delta accordingly
       setQty(1);
-      // if empty -> 1, adjust delta back to 1
       applyDelta(1);
+      setShowQty(true);
     }
   };
 
   const handleKeyDown = (e) => {
-    // If user tries to ArrowDown at 1, hide input instead of going to 0/negative
+    // If user ArrowDown at 1, hide input instead of going 0/negative
     if (e.key === "ArrowDown" || e.key === "Down") {
-      const current = Number(qty || 1);
+      const current = Number(qty || 0);
       if (current <= 1) {
         e.preventDefault();
         hideInputReset();
@@ -146,7 +190,6 @@ export default function SingleCard({ info }) {
                   className="w-14 h-8 text-center"
                   type="number"
                   inputMode="numeric"
-                  // Allow decrement to 0 so we can detect and hide
                   min={0}
                   max={MAX}
                   step={1}
