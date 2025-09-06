@@ -17,7 +17,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  max-width: 1100px;
+  /* max-width: 1100px; */
 
   letter-spacing: 0.5px;
 }
@@ -61,4 +61,10 @@
 
 .bottom-bar {
   top: 70%;
+}
+
+@media screen and (min-width: 48rem) {
+  .navbar-container {
+    width: 90%;
+  }
 }
