@@ -14,6 +14,7 @@ import plusicon from "./plusicon.png";
 import { Badge } from "../../../components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { GlobalContext } from "@/app/context/GlobalContext";
+import Nutrition from "./Nutrition";
 
 export default function SingleCard({ info }) {
   const { setCartCount, setCart, cart } = useContext(GlobalContext);
@@ -138,7 +139,7 @@ export default function SingleCard({ info }) {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full single-card-container">
       <Card className="flex flex-col justify-between">
         <CardHeader>
           <AspectRatio ratio={16 / 9} className="bg-muted relative">
@@ -170,19 +171,12 @@ export default function SingleCard({ info }) {
           </CardDescription>
 
           <div className="flex justify-between items-center">
-            <div className="flex gap-2 items-center">
-              <Image
-                src={infoicon}
-                alt="Info"
-                width={20}
-                height={20}
-                className="h-5 w-5"
-                priority
-              />
-              <div className="text-gray-500 text-sm underline">
-                Nutritional Details
-              </div>
-            </div>
+            <Nutrition
+              calories={info.calories}
+              protein={info.protein}
+              fats={info.fats}
+              carbs={info.carbs}
+            />
 
             <div className="flex items-center gap-2">
               {showQty && (
