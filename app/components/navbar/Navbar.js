@@ -32,7 +32,13 @@ export default function Navbar() {
   };
   return (
     <>
-      {" "}
+      <ShoppingCart
+        isOpen={isOpen}
+        onClose={onCloseFunction}
+        cartItems={cart}
+        onRemove={onRemoveFunction}
+        onClear={onClearFunction}
+      />{" "}
       <div className="navbar-container">
         <div className="flex items-center font-semibold gap-10 w-full ">
           <Link href="/" aria-label="Go to homepage">
@@ -75,13 +81,13 @@ export default function Navbar() {
               </div>{" "}
             </Link>
           </Button>
-          <ShoppingCart
+          {/* <ShoppingCart
             isOpen={isOpen}
             onClose={onCloseFunction}
             cartItems={cart}
             onRemove={onRemoveFunction}
             onClear={onClearFunction}
-          />
+          /> */}
           <div
             className="menu-button md:hidden"
             onClick={() => {
