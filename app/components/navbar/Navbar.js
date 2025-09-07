@@ -2,12 +2,13 @@
 import React, { useContext, useState } from "react";
 import "./Navbar.css";
 import logo from "./logo.png";
-import cart from "./shopping-cart-white.png";
+import cartIcon from "./shopping-cart-white.png";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../../../components/ui/button";
 import MobileMenu from "./MobileMenu";
 import { GlobalContext } from "@/app/context/GlobalContext";
+import ShoppingCart from "@/app/cart/ShoppingCart";
 
 const links = [
   { name: "Our Dishes", link: "/menu" },
@@ -16,7 +17,19 @@ const links = [
 
 export default function Navbar() {
   const [mobileMenu, setMobileMenu] = useState(false);
-  const { headerLinks, cartCount } = useContext(GlobalContext);
+  const { headerLinks, cartCount, cart } = useContext(GlobalContext);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onRemoveFunction = () => {
+    console.log("remove function clicked");
+  };
+  const onClearFunction = () => {
+    console.log("on clear function clicked");
+  };
+
+  const onCloseFunction = () => {
+    setIsOpen(false);
+  };
   return (
     <>
       {" "}
@@ -41,9 +54,14 @@ export default function Navbar() {
 
         <div className="flex">
           {" "}
-          <Button className="bg-orange-600  font-semibold ">
+          <Button
+            className="bg-orange-600  font-semibold "
+            onClick={() => {
+              setIsOpen(true);
+            }}
+          >
             <Image
-              src={cart}
+              src={cartIcon}
               alt="Site Logo"
               width={100}
               height={50}
@@ -57,6 +75,13 @@ export default function Navbar() {
               </div>{" "}
             </Link>
           </Button>
+          <ShoppingCart
+            isOpen={isOpen}
+            onClose={onCloseFunction}
+            cartItems={cart}
+            onRemove={onRemoveFunction}
+            onClear={onClearFunction}
+          />
           <div
             className="menu-button md:hidden"
             onClick={() => {

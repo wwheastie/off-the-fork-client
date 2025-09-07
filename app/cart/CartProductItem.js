@@ -37,7 +37,7 @@ export default function CartProductItem({ item, onRemove }) {
       {/* Product Image */}
       <div className="flex-shrink-0 self-center sm:self-start">
         <Image
-          src={item.image || "/placeholder-food.svg"}
+          src={item.imageUrl || "/placeholder-food.svg"}
           alt={item.name}
           width={80}
           height={80}

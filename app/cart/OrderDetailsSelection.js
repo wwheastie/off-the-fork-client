@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "../../../components/ui/button";
+import { Button } from "../../components/ui/button";
 
 export default function OrderDetailsSection({ total }) {
   const [selectedTip, setSelectedTip] = useState(0);

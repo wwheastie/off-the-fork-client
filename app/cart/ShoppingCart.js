@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Button } from "../../../components/ui/button";
+import { Button } from "../../components/ui/button";
 import CartProductItem from "./CartProductItem";
-import OrderDetailsSection from "./OrderDetailsSection";
+import OrderDetailsSection from "./OrderDetailsSelection.js";
 
 export default function ShoppingCart({
   isOpen,
@@ -11,13 +11,10 @@ export default function ShoppingCart({
   onClear,
 }) {
   const [showOrderDetails, setShowOrderDetails] = useState(false);
-
+  console.log(cartItems);
   if (!isOpen) return null;
 
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const total = cartItems.reduce((sum, item) => sum + item?.price * 1, 0);
 
   const handleProceedToCheckout = () => {
     setShowOrderDetails(true);
@@ -41,7 +38,7 @@ export default function ShoppingCart({
       ></div>
 
       {/* Cart Popup */}
-      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[95vw] lg:w-[90vw] max-w-[1200px] max-h-[95vh] lg:max-h-[90vh] bg-white rounded-xl shadow-2xl z-[1001] overflow-hidden flex flex-col">
+      <div className="fixed top-100  lg:top-120 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[95vw] lg:w-[90vw] max-w-[1200px] max-h-[95vh] lg:max-h-[90vh] bg-white rounded-xl shadow-2xl z-[1001] overflow-hidden flex flex-col border border-black">
         <div className="flex justify-between items-center p-4 lg:p-5 border-b border-gray-200 bg-gray-50">
           <div className="flex items-center gap-3">
             {showOrderDetails && (
