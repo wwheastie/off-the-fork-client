@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Off the Fork",
-  description: "Tasty & Healthy food at your doorstep",
+  description: "Tasty & Healthy Meals at your Doorstep",
 };
 
 export default function RootLayout({ children }) {
