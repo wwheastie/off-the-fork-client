@@ -2,15 +2,13 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-export default function CartProductItem({ item, onRemove }) {
+export default function CartProductItem({ item, onRemove, itemQuantity }) {
   const [quantity, setQuantity] = useState(item.quantity || 1);
 
   const handleQuantityChange = (newQuantity) => {
     if (newQuantity === 0) {
       // Ask for confirmation before removing item
-      const confirmed = window.confirm(
-        `Are you sure you want to remove "${item.name}" from your cart?`
-      );
+
       if (confirmed) {
         // Remove item from cart
         if (onRemove) {
@@ -33,7 +31,7 @@ export default function CartProductItem({ item, onRemove }) {
   };
 
   return (
-    <div className="flex flex-row gap-3 sm:gap-4 p-3 sm:p-4 border border-gray-200 rounded-lg bg-white transition-all duration-200 hover:shadow-sm">
+    <div className="flex flex-row gap-3 sm:gap-4 p-3 sm:p-4 border border-gray-200 rounded-lg bg-white transition-all duration-200 hover:shadow-sm ">
       {/* Product Image */}
       <div className="flex-shrink-0 self-center sm:self-start">
         <Image
@@ -47,7 +45,7 @@ export default function CartProductItem({ item, onRemove }) {
 
       {/* Product Details */}
       <div className="flex-1 text-left">
-        <h4 className="text-md font-semibold text-gray-900 mb-2 leading-tight">
+        <h4 className="text-sm md:text-md font-semibold text-gray-900 mb-2 leading-tight">
           {item.name}
         </h4>
         <p className="text-xs sm:text-sm text-gray-500 mb-3 leading-relaxed line-clamp-2">
@@ -63,7 +61,7 @@ export default function CartProductItem({ item, onRemove }) {
       <div className="flex flex-col gap-2 sm:gap-3 lg:items-center items-end flex-shrink-0">
         {/* Quantity Control */}
         <div className="flex flex-col h-full items-center justify-between gap-1">
-          <div className="flex items-center gap-2 px-2 sm:px-3 py-1.5 border border-gray-300 rounded-full bg-gray-50">
+          <div className="flex items-center gap-2 px-1 md:px-2 sm:px-3 py-1.5 border border-gray-300 rounded-full bg-gray-50">
             {/* Remove Item Button */}
             <button
               className={`p-1 rounded transition-all duration-200 flex items-center justify-center hover:cursor-pointer ${
@@ -75,8 +73,8 @@ export default function CartProductItem({ item, onRemove }) {
               }
             >
               <svg
-                width="14"
-                height="14"
+                width="12"
+                height="12"
                 className="sm:w-4 sm:h-4"
                 viewBox="0 0 24 24"
                 fill="none"

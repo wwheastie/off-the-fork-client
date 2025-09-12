@@ -17,12 +17,39 @@ const links = [
 
 export default function Navbar() {
   const [mobileMenu, setMobileMenu] = useState(false);
-  const { headerLinks, cartCount, cart } = useContext(GlobalContext);
+  const { headerLinks, cartCount, cart, setCart, setCartCount } =
+    useContext(GlobalContext);
   const [isOpen, setIsOpen] = useState(false);
 
-  const onRemoveFunction = () => {
-    console.log("remove function clicked");
+  const onRemoveFunction = (idToRemove) => {
+    setCart((prev) => {
+      const target = String(idToRemove);
+      let removedQty = 0;
+
+      const next = [];
+      for (const it of prev) {
+        const itemId = String(it?.id ?? it?.mealId ?? "");
+        if (itemId === target) {
+          removedQty += Number(it?.quantity ?? it?.qty ?? 1) || 1;
+        } else {
+          next.push(it);
+        }
+      }
+
+      // Either subtract removedQty...
+      // setCartCount(c => Math.max(0, c - removedQty));
+
+      // ...or recompute from the next cart (most reliable):
+      const nextCount = next.reduce(
+        (sum, it) => sum + (Number(it?.quantity ?? it?.qty ?? 1) || 1),
+        0
+      );
+      setCartCount(nextCount);
+
+      return next;
+    });
   };
+
   const onClearFunction = () => {
     console.log("on clear function clicked");
   };

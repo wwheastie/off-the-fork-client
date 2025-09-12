@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button } from "../../components/ui/button";
 import CartProductItem from "./CartProductItem";
 import OrderDetailsSection from "./OrderDetailsSelection.js";
+import { useBodyScrollLock } from "./useBodyScrollLock.js";
+import { dedupeCart } from "./functions";
 
 export default function ShoppingCart({
   isOpen,
@@ -10,6 +12,7 @@ export default function ShoppingCart({
   onRemove,
   onClear,
 }) {
+  useBodyScrollLock(isOpen);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
   console.log(cartItems);
   if (!isOpen) return null;
@@ -28,6 +31,7 @@ export default function ShoppingCart({
     setShowOrderDetails(false);
     onClose();
   };
+  const uniqueCart = dedupeCart(cartItems);
 
   return (
     <>
@@ -38,7 +42,7 @@ export default function ShoppingCart({
       ></div>
 
       {/* Cart Popup */}
-      <div className="fixed top-100  lg:top-120 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[95vw] lg:w-[90vw] max-w-[1200px] max-h-[95vh] lg:max-h-[90vh] bg-white rounded-xl shadow-2xl z-[1001] overflow-hidden flex flex-col border border-black">
+      <div className="fixed top-100  lg:top-120 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[95vw] lg:w-[90vw] max-w-[1200px] max-h-[95vh] lg:max-h-[80vh] bg-white rounded-xl shadow-2xl z-[1001] overflow-hidden flex flex-col border border-black">
         <div className="flex justify-between items-center p-4 lg:p-5 border-b border-gray-200 bg-gray-50">
           <div className="flex items-center gap-3">
             {showOrderDetails && (
@@ -95,9 +99,9 @@ export default function ShoppingCart({
           <OrderDetailsSection total={total} />
 
           {/* Right Section - Cart Items */}
-          <div className="p-6 border-l border-gray-200 flex flex-col">
+          <div className="p-6 border-l border-gray-200 flex flex-col overflow-y-scroll">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-semibold text-gray-900 m-0">
+              <h3 className="text-md lg:text-xl font-semibold text-gray-900 m-0">
                 Your Cart
               </h3>
               <button
@@ -109,12 +113,13 @@ export default function ShoppingCart({
             </div>
 
             <div className="flex-1 overflow-y-auto flex flex-col gap-4">
-              {cartItems.length > 0 ? (
-                cartItems.map((item, index) => (
+              {uniqueCart.length > 0 ? (
+                uniqueCart.map((item, index) => (
                   <CartProductItem
                     key={index}
                     item={item}
                     onRemove={onRemove}
+                    // itemQuantity={}
                   />
                 ))
               ) : (

@@ -5,30 +5,40 @@ import { GlobalContext } from "@/app/context/GlobalContext";
 
 export function CardComponent({ data = [] }) {
   const { cart } = useContext(GlobalContext);
-  // Helper: normalize names so lookups are consistent
-  const normalizeName = (x) => {
-    const name = typeof x === "string" ? x : x?.name ?? x?.mealName ?? x?.title;
-    return (name || "").trim().toLowerCase().replace(/\s+/g, " ");
+
+  // Helper: get a stable string id from various shapes (id or mealId)
+  const getId = (obj) => {
+    const raw = obj?.id ?? obj?.mealId;
+    return raw != null ? String(raw) : null;
   };
 
-  // Build: name -> total qty
+  // Build: id -> total qty
   const qtyMap = useMemo(() => {
     const map = new Map();
     for (const item of cart ?? []) {
-      const key = normalizeName(item);
-      if (!key) continue;
-      const inc = item.qty != null ? item.qty : 1;
-      map.set(key, (map.get(key) || 0) + inc);
+      const id = getId(item);
+      if (!id) continue;
+      const inc =
+        item?.qty != null
+          ? Number(item.qty)
+          : item?.quantity != null
+          ? Number(item.quantity)
+          : 1;
+      const prev = map.get(id) || 0;
+      map.set(id, prev + (Number.isFinite(inc) ? inc : 0));
     }
     return map;
   }, [cart]);
 
-  // When enriching meals:
+  // Enrich meals with quantity using their id
   const mealsWithQty = useMemo(() => {
-    return (data ?? []).map((m) => ({
-      ...m,
-      quantity: qtyMap.get(normalizeName(m)) || 0,
-    }));
+    return (data ?? []).map((m) => {
+      const id = getId(m);
+      return {
+        ...m,
+        quantity: id ? qtyMap.get(id) || 0 : 0,
+      };
+    });
   }, [data, qtyMap]);
 
   return (
