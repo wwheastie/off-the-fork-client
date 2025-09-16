@@ -148,8 +148,8 @@ export default function ShoppingCart({
 
                       {/* Cart Items */}
                       <div className="p-4 flex flex-col gap-2">
-                          {cartItems.length > 0 ? (
-                              cartItems.map((item, index) => (
+                          {uniqueCart.length > 0 ? (
+                              uniqueCart.map((item, index) => (
                                   <CartProductItem key={index} item={item} onRemove={onRemove} />
                               ))
                           ) : (
@@ -161,7 +161,7 @@ export default function ShoppingCart({
 
                       {/* Checkout Button */}
                       {cartItems.length > 0 && (
-                          <div className="p-4 border-t border-gray-200 bg-white env(safe-area-inset-bottom,5rem)">
+                          <div className="p-4 border-t border-gray-200 bg-white pb-20">
                               <Button
                                   className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-sm"
                                   onClick={handleProceedToCheckout}
@@ -173,7 +173,7 @@ export default function ShoppingCart({
                   </>
               ) : (
                   /* Order Details Step */
-                  <div className="p-4 flex flex-col gap-4 env(safe-area-inset-bottom,5rem)">
+                  <div className="p-4 flex flex-col gap-4 pb-20">
                       <OrderDetailsSection total={total} />
                   </div>
               )}
