@@ -32,7 +32,7 @@ export function CardComponent({ data = [] }) {
 
   // Enrich meals with quantity using their id
   const mealsWithQty = useMemo(() => {
-    return (data ?? []).map((m) => {
+    return (Array.isArray(data) ? data : []).map((m) => {
       const id = getId(m);
       return {
         ...m,

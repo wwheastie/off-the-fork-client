@@ -160,7 +160,7 @@ export default function ShoppingCart({
                       </div>
 
                       {/* Checkout Button */}
-                      {cartItems.length > 0 && (
+                      {uniqueCart.length > 0 && (
                           <div className="p-4 border-t border-gray-200 bg-white pb-20">
                               <Button
                                   className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-sm"
