@@ -4,6 +4,8 @@ import CartProductItem from "./CartProductItem";
 import OrderDetailsSection from "./OrderDetailsSelection.js";
 import { useBodyScrollLock } from "./useBodyScrollLock.js";
 import { dedupeCart } from "./functions";
+import CartPopUp from "./CartPopUp";
+import CartComponent from "./CartComponent";
 
 export default function ShoppingCart({
   isOpen,
@@ -41,7 +43,6 @@ export default function ShoppingCart({
         onClick={handleClose}
       ></div>
 
-      {/* Cart Popup */}
       <div className="fixed top-4 lg:top-1/2 left-1/2 transform lg:-translate-y-1/2 -translate-x-1/2 w-[95vw] lg:w-[90vw] max-w-[1200px] max-h-[95vh] lg:max-h-[80vh] bg-white rounded-xl shadow-2xl z-[1001] overflow-hidden flex flex-col border border-black">
         <div className="flex justify-between items-center p-4 lg:p-5 border-b border-gray-200 bg-gray-50">
           <div className="flex items-center gap-3">
@@ -131,54 +132,61 @@ export default function ShoppingCart({
           </div>
         </div>
 
-          {/* Mobile Layout - Whole Section Scrollable with extra bottom padding */}
-          <div className="lg:hidden max-h-[95vh] w-full bg-white rounded-xl shadow-2xl overflow-y-auto">
-              {!showOrderDetails ? (
-                  <>
-                      {/* Header */}
-                      <div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
-                          <h3 className="text-lg font-semibold text-gray-900">Your Cart</h3>
-                          <button
-                              className="bg-transparent border-none text-gray-500 text-sm cursor-pointer px-2 py-1 rounded transition-all duration-200"
-                              onClick={onClear}
-                          >
-                              Clear
-                          </button>
-                      </div>
+        {/* Mobile Layout - Whole Section Scrollable with extra bottom padding */}
+        <div className="lg:hidden max-h-[95vh] w-full bg-white rounded-xl shadow-2xl overflow-y-auto">
+          {!showOrderDetails ? (
+            <>
+              {/* Header */}
+              <div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center sticky top-0 bg-white z-10">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Your Cart
+                </h3>
+                <button
+                  className="bg-transparent border-none text-gray-500 text-sm cursor-pointer px-2 py-1 rounded transition-all duration-200"
+                  onClick={onClear}
+                >
+                  Clear
+                </button>
+              </div>
 
-                      {/* Cart Items */}
-                      <div className="p-4 flex flex-col gap-2">
-                          {uniqueCart.length > 0 ? (
-                              uniqueCart.map((item, index) => (
-                                  <CartProductItem key={index} item={item} onRemove={onRemove} />
-                              ))
-                          ) : (
-                              <div className="flex items-center justify-center h-48 text-gray-500 text-base">
-                                  <p>Your cart is empty</p>
-                              </div>
-                          )}
-                      </div>
-
-                      {/* Checkout Button */}
-                      {cartItems.length > 0 && (
-                          <div className="p-4 border-t border-gray-200 bg-white pb-20">
-                              <Button
-                                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-sm"
-                                  onClick={handleProceedToCheckout}
-                              >
-                                  Proceed to Checkout
-                              </Button>
-                          </div>
-                      )}
-                  </>
-              ) : (
-                  /* Order Details Step */
-                  <div className="p-4 flex flex-col gap-4 pb-20">
-                      <OrderDetailsSection total={total} />
+              {/* Cart Items */}
+              <div className="p-4 flex flex-col gap-2">
+                {uniqueCart.length > 0 ? (
+                  uniqueCart.map((item, index) => (
+                    <CartProductItem
+                      key={index}
+                      item={item}
+                      onRemove={onRemove}
+                    />
+                  ))
+                ) : (
+                  <div className="flex items-center justify-center h-48 text-gray-500 text-base">
+                    <p>Your cart is empty</p>
                   </div>
+                )}
+              </div>
+
+              {/* Checkout Button */}
+              {cartItems.length > 0 && (
+                <div className="p-4 border-t border-gray-200 bg-white pb-20">
+                  <Button
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-sm"
+                    onClick={handleProceedToCheckout}
+                  >
+                    Proceed to Checkout
+                  </Button>
+                </div>
               )}
-          </div>
+            </>
+          ) : (
+            /* Order Details Step */
+            <div className="p-4 flex flex-col gap-4 pb-20">
+              <OrderDetailsSection total={total} />
+            </div>
+          )}
+        </div>
       </div>
+      {/* <CartComponent /> */}
     </>
   );
 }
