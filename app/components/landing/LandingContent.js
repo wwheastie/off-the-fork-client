@@ -13,7 +13,7 @@ export default function LandingContent() {
   ];
   return (
     <div className="p-2 pt-8 md: landing-content">
-      <div className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-orange-600">
+      <div className="text-2xl md:text-3xl lg:text-5xl font-extrabold text-orange-600">
         The Best Subscription to Eat Healthy
       </div>
       <div className=" text-gray-500 text-md md:text-lg font-semibold">

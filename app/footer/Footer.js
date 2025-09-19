@@ -12,8 +12,8 @@ export default function Footer({ brand = "Your Brand", links = defaultLinks }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-12 border-t">
-      <div className="mx-auto max-w-7xl px-4 py-8 md:px-6">
+    <footer className="mt-12 component-container">
+      <div className="mx-auto  px-4 py-8 md:px-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
           {/* Brand / Copy */}
           <div className="space-y-1">

@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import image1 from "./logo.png";
-
+import { mockData } from "./mockData";
 // Create context
 export const GlobalContext = createContext();
 
@@ -60,7 +60,8 @@ export function GlobalProvider({ children }) {
   }, [cartCount]);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    console.log("cart changed");
+    // if (typeof window === "undefined") return;
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 

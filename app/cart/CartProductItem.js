@@ -1,9 +1,56 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import NoteComponent from "./NoteComponent";
+import { setQuantityByIdInPlace } from "../context/mockData";
+import { GlobalContext } from "../context/GlobalContext";
 
-export default function CartProductItem({ item, onRemove, itemQuantity }) {
-  const [quantity, setQuantity] = useState(item.quantity || 1);
+export default function CartProductItem({ item, onRemove }) {
+  const [quantity, setQuantity] = useState(item?.quantity || 1);
+  const [note, setNote] = useState([]);
+  const [showNote, setShowNote] = useState(false);
+
+  const { cart, setCart, setCartCount } = useContext(GlobalContext);
+
+  const countIncrement = () => {
+    const newQty = item?.quantity + 1;
+    setQuantity(newQty);
+
+    // mutate in place, then swap in a new array reference
+    setQuantityByIdInPlace(cart, item, newQty, item.id);
+    const nextCart = [...cart]; // new referencef
+    setCart(nextCart);
+
+    // sum of quantities
+    const totalUnits = nextCart.reduce(
+      (sum, item) => sum + (Number(item?.quantity ?? 0) || 0),
+      0
+    );
+    setCartCount(totalUnits);
+
+    console.log("updated Cart:", nextCart);
+  };
+
+  const countDecrement = () => {
+    const newQty = item?.quantity - 1;
+    setQuantity(newQty);
+
+    // mutate in place, then swap in a new array reference
+    setQuantityByIdInPlace(cart, item, newQty, item.id);
+    const nextCart = [...cart]; // new reference
+    setCart(nextCart);
+
+    // sum of quantities
+    const totalUnits = nextCart.reduce(
+      (sum, item) => sum + (Number(item?.quantity ?? item?.qty ?? 0) || 0),
+      0
+    );
+    setCartCount(totalUnits);
+
+    console.log("updated Cart:", nextCart);
+  };
 
   const handleQuantityChange = (newQuantity) => {
     if (newQuantity === 0) {
@@ -29,6 +76,14 @@ export default function CartProductItem({ item, onRemove, itemQuantity }) {
       onRemove(item.id);
     }
   };
+
+  if (showNote) {
+    return (
+      <>
+        <NoteComponent setShowNote={setShowNote} />
+      </>
+    );
+  }
 
   return (
     <div className="flex flex-row gap-3 sm:gap-4 p-3 sm:p-4 border border-gray-200 rounded-lg bg-white transition-all duration-200 hover:shadow-sm ">
@@ -67,7 +122,7 @@ export default function CartProductItem({ item, onRemove, itemQuantity }) {
               className={`p-1 rounded transition-all duration-200 flex items-center justify-center hover:cursor-pointer ${
                 quantity === 1 ? "text-red-600" : "text-gray-500"
               }`}
-              onClick={() => handleQuantityChange(quantity - 1)}
+              onClick={countDecrement}
               title={
                 quantity === 1 ? "Click to remove item" : "Decrease quantity"
               }
@@ -81,11 +136,10 @@ export default function CartProductItem({ item, onRemove, itemQuantity }) {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                  d="M5 12h14"
                   stroke="currentColor"
                   strokeWidth="2"
                   strokeLinecap="round"
-                  strokeLinejoin="round"
                 />
               </svg>
             </button>
@@ -94,7 +148,7 @@ export default function CartProductItem({ item, onRemove, itemQuantity }) {
             </span>
             <button
               className="bg-transparent border-none cursor-pointer p-1 rounded text-gray-500 hover:text-gray-700 transition-all duration-200 flex items-center justify-center"
-              onClick={() => handleQuantityChange(quantity + 1)}
+              onClick={countIncrement}
               title="Increase quantity"
             >
               <svg
@@ -142,7 +196,14 @@ export default function CartProductItem({ item, onRemove, itemQuantity }) {
               strokeLinejoin="round"
             />
           </svg>
-          <span className="text-sm font-semibold">Note</span>
+          <span
+            className="text-sm font-semibold"
+            onClick={() => {
+              setShowNote(true);
+            }}
+          >
+            Note
+          </span>
         </button>
       </div>
     </div>
