@@ -52,6 +52,17 @@ export function GlobalProvider({ children }) {
   // Initialize from localStorage (client only)
   const [cartCount, setCartCount] = useState(readCartCount);
   const [cart, setCart] = useState(readCart);
+  const [buyerInfo, setBuyerInfo] = useState({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    email: "",
+    streetAddress: "",
+    unit: 0,
+    city: "",
+    state: "",
+    postalCode: "",
+  });
 
   // Write-through on changes
   useEffect(() => {
@@ -92,11 +103,12 @@ export function GlobalProvider({ children }) {
     () => ({
       cartCount,
       setCartCount,
-
+      buyerInfo,
+      setBuyerInfo,
       cart,
       setCart,
     }),
-    [cartCount, cart]
+    [cartCount, cart, buyerInfo]
   );
 
   return (

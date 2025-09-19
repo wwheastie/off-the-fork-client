@@ -1,11 +1,13 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import YourCartComponent from "./YourCartComponent";
 import YourDetailsComponent from "./YourDetailsComponent";
+import MobileDetailsComponent from "./MobileDetailsComponent";
 
 function CartComponent({ onClose }) {
   const [showOrderDetails, setShowOrderDetails] = useState(false);
+
   return (
     <div className="fixed h-200 md:h-180 top-4 lg:top-1/2 left-1/2 transform lg:-translate-y-1/2 -translate-x-1/2 w-[95vw] lg:w-[90vw] max-w-[1200px] max-h-[95vh] lg:max-h-[80vh] bg-white rounded-xl shadow-2xl z-[1001] overflow-hidden flex flex-col bg-white text-black">
       <div className="flex justify-between p-2 bg-gray-100 w-full border border-gray">
@@ -35,7 +37,13 @@ function CartComponent({ onClose }) {
       </div>
       <div className="p-2  flex flex-col flex-col-reverse md:grid grid-cols-2 w-full">
         <div className="">
-          <YourDetailsComponent />
+          <div className="hidden md:block">
+            <YourDetailsComponent />
+          </div>
+          <div className="md:hidden">
+            <MobileDetailsComponent />
+          </div>
+
           <Button>Proceed To Payment</Button>
         </div>{" "}
         <YourCartComponent />
