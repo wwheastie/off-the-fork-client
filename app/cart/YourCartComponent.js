@@ -48,9 +48,6 @@ function YourCartComponent() {
           </div>
         )}
       </div>
-      <div className=" text-xl font-bold px-6 hidden md:block">
-        Total: $ {getCartTotal(cart)}
-      </div>
     </div>
   );
 }

@@ -4,9 +4,12 @@ import React, { useContext, useState } from "react";
 import YourCartComponent from "./YourCartComponent";
 import YourDetailsComponent from "./YourDetailsComponent";
 import MobileDetailsComponent from "./MobileDetailsComponent";
+import { getCartTotal } from "../context/mockData";
+import { GlobalContext } from "../context/GlobalContext";
 
 function CartComponent({ onClose }) {
   const [showOrderDetails, setShowOrderDetails] = useState(false);
+  const { cart } = useContext(GlobalContext);
 
   return (
     <div className="fixed h-200 md:h-180 top-4 lg:top-1/2 left-1/2 transform lg:-translate-y-1/2 -translate-x-1/2 w-[95vw] lg:w-[90vw] max-w-[1200px] max-h-[95vh] lg:max-h-[80vh] bg-white rounded-xl shadow-2xl z-[1001] overflow-hidden flex flex-col bg-white text-black">
@@ -43,10 +46,15 @@ function CartComponent({ onClose }) {
           <div className="md:hidden">
             <MobileDetailsComponent />
           </div>
-
-          <Button className="bg-orange-600 ml-6 text-md">
-            Proceed To Payment
-          </Button>
+          <div className="ml-6 w-4/5 flex flex-col gap-2 ">
+            <div className="flex justify-between font-bold  text-lg">
+              <div>Total</div>
+              <div> $ {getCartTotal(cart)}</div>
+            </div>{" "}
+            <Button className="bg-orange-600  text-md w-full ">
+              Proceed To Payment
+            </Button>
+          </div>
         </div>{" "}
         <YourCartComponent />
       </div>
