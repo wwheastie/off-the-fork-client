@@ -89,11 +89,8 @@ export default function CartIncrement({ info }) {
       {showQty && (
         <>
           <div
-            className={`bg-orange-500 rounded-full w-7 h-7 flex justify-center items-center ${
-              atMax && showQty
-                ? "opacity-50 pointer-events-none"
-                : "cursor-pointer"
-            }`}
+            className="bg-orange-500 rounded-full w-7 h-7 flex justify-center items-center 
+                cursor-pointer"
             onClick={hideOrDecrement}
             role="button"
             aria-label="Increase quantity"
