@@ -2,6 +2,7 @@
 import React, { useContext } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import CartProductItem from "./CartProductItem";
+import { getCartTotal } from "../context/mockData";
 
 function YourCartComponent() {
   const { headerLinks, cartCount, cart, setCart, setCartCount } =
@@ -14,7 +15,10 @@ function YourCartComponent() {
   return (
     <div className="h-full min-h-80 ">
       <div className="flex justify-between px-6 py-2">
-        <div className="text-md font-semibold">Your Cart</div>
+        <div className="text-md font-semibold hidden md:block">Your Cart</div>
+        <div className=" text-xl font-bold  md:hidden">
+          Total: ${getCartTotal(cart)}
+        </div>
         <div
           className="text-red-400 text-md font-semibold cursor-pointer"
           onClick={() => {
@@ -41,6 +45,9 @@ function YourCartComponent() {
             <p>Your cart is empty</p>
           </div>
         )}
+      </div>
+      <div className="border border-gray text-xl font-bold px-6 hidden md:block">
+        Total: $ {getCartTotal(cart)}
       </div>
     </div>
   );

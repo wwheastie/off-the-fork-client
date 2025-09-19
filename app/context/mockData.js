@@ -93,6 +93,16 @@ const mockData = [
   },
 ];
 
+// Returns the numeric total (rounded to cents)
+function getCartTotal(cart) {
+  const total = (cart ?? []).reduce((sum, item) => {
+    const qty = Number(item?.quantity ?? item?.qty ?? 1) || 0;
+    const price = Number(item?.price ?? 0) || 0;
+    return sum + qty * price;
+  }, 0);
+  return Math.round(total * 100) / 100;
+}
+
 function setQuantityByIdInPlace(arr, meal, quantity, id, idKey = "id") {
   if (!Array.isArray(arr)) throw new Error("arr must be an array");
   const q = Number(quantity);
@@ -127,4 +137,4 @@ function setQuantityByIdInPlace(arr, meal, quantity, id, idKey = "id") {
   return arr; // mutated in place
 }
 
-export { mockData, setQuantityByIdInPlace };
+export { mockData, setQuantityByIdInPlace, getCartTotal };
