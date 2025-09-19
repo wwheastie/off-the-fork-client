@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import OrderDetailsSection from "./OrderDetailsSelection";
 import CartProductItem from "./CartProductItem";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,13 @@ export default function CartPopUp({
   handleProceedToCheckout,
   uniqueCart,
 }) {
+  const [showOrderDetails, setShowOrderDetails] = useState(true);
+  const handleBackToCart = () => {
+    console.log("hey");
+  };
+  const handleClose = () => {
+    console.log("handle close");
+  };
   return (
     <div className="fixed top-4 lg:top-1/2 left-1/2 transform lg:-translate-y-1/2 -translate-x-1/2 w-[95vw] lg:w-[90vw] max-w-[1200px] max-h-[95vh] lg:max-h-[80vh] bg-white rounded-xl shadow-2xl z-[1001] overflow-hidden flex flex-col border border-black">
       <div className="flex justify-between items-center p-4 lg:p-5 border-b border-gray-200 bg-gray-50">

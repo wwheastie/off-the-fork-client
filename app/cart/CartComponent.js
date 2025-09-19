@@ -10,7 +10,7 @@ function CartComponent({ onClose }) {
 
   return (
     <div className="fixed h-200 md:h-180 top-4 lg:top-1/2 left-1/2 transform lg:-translate-y-1/2 -translate-x-1/2 w-[95vw] lg:w-[90vw] max-w-[1200px] max-h-[95vh] lg:max-h-[80vh] bg-white rounded-xl shadow-2xl z-[1001] overflow-hidden flex flex-col bg-white text-black">
-      <div className="flex justify-between p-2 bg-gray-100 w-full border border-gray">
+      <div className="flex justify-between px-6 py-4 bg-gray-100 w-full border border-gray">
         <h2 className="text-xl lg:text-2xl font-semibold text-gray-900 m-0">
           {showOrderDetails ? "Order Details" : "Shopping Cart"}
         </h2>

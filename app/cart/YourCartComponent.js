@@ -14,8 +14,10 @@ function YourCartComponent() {
   };
   return (
     <div className="h-full min-h-80 ">
-      <div className="flex justify-between px-6 py-2">
-        <div className="text-md font-semibold hidden md:block">Your Cart</div>
+      <div className="flex justify-between px-6 py-4">
+        <div className="text-md md:text-xl font-semibold hidden md:block">
+          Your Cart
+        </div>
         <div className=" text-xl font-bold  md:hidden">
           Total: ${getCartTotal(cart)}
         </div>

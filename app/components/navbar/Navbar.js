@@ -9,6 +9,7 @@ import { Button } from "../../../components/ui/button";
 import MobileMenu from "./MobileMenu";
 import { GlobalContext } from "@/app/context/GlobalContext";
 import ShoppingCart from "@/app/cart/ShoppingCart";
+import CartPopUp from "@/app/cart/CartPopUp";
 
 const links = [
   { name: "Our Dishes", link: "/menu" },
@@ -31,6 +32,9 @@ export default function Navbar() {
     console.log("on clear function clicked");
   };
 
+  const onProceed = () => {
+    console.log("hello");
+  };
   const onCloseFunction = () => {
     setIsOpen(false);
   };
@@ -43,6 +47,14 @@ export default function Navbar() {
         onRemove={onRemoveFunction}
         onClear={onClearFunction}
       />{" "}
+      {/* <CartPopUp
+        total={100}
+        onClear={onClearFunction}
+        onRemove={onRemoveFunction}
+        cartItems={cart}
+        handleProceedToCheckout={onProceed}
+        uniqueCart={cart}
+      /> */}
       <div className="navbar-container">
         <div className="flex items-center font-semibold gap-10 w-full ">
           <Link href="/" aria-label="Go to homepage">
