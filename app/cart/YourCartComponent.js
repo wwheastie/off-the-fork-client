@@ -13,12 +13,13 @@ function YourCartComponent() {
   };
   return (
     <div className="h-full min-h-80 ">
-      <div className="flex justify-between px-3">
-        <div className="text-xl font-semibold">Your Cart</div>
+      <div className="flex justify-between px-6 py-2">
+        <div className="text-md font-semibold">Your Cart</div>
         <div
-          className="text-gray text-md"
+          className="text-red-400 text-md font-semibold cursor-pointer"
           onClick={() => {
-            console.log("clear cart");
+            setCart([]);
+            setCartCount(0);
           }}
         >
           Clear
