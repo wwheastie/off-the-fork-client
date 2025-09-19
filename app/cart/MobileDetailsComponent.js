@@ -35,10 +35,10 @@ function MobileDetailsComponent() {
   };
 
   return (
-    <div className="h-80 md:h-140 lg:h-140 border border-black">
+    <div className="h-80 md:h-140 lg:h-140 border-t border-gray">
       <div className="p-2 pb-1 lg:p-6 flex flex-col gap-2 lg:gap-4 overflow-y-auto">
         <h3 className="text-lg lg:text-xl font-semibold text-gray-900 border-b border-gray-200">
-          Order Details
+          Buyer Details
         </h3>
 
         {/* Personal Information */}

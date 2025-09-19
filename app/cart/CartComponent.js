@@ -44,7 +44,9 @@ function CartComponent({ onClose }) {
             <MobileDetailsComponent />
           </div>
 
-          <Button>Proceed To Payment</Button>
+          <Button className="bg-orange-600 ml-6 text-md">
+            Proceed To Payment
+          </Button>
         </div>{" "}
         <YourCartComponent />
       </div>

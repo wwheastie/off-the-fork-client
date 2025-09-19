@@ -46,7 +46,7 @@ function YourCartComponent() {
           </div>
         )}
       </div>
-      <div className="border border-gray text-xl font-bold px-6 hidden md:block">
+      <div className=" text-xl font-bold px-6 hidden md:block">
         Total: $ {getCartTotal(cart)}
       </div>
     </div>

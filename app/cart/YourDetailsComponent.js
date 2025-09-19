@@ -30,10 +30,10 @@ function YourDetailsComponent() {
   };
 
   return (
-    <div className="h-80 md:h-140 lg:h-140 border border-black">
+    <div className="h-80 md:h-140 lg:h-140 border-r border-gray">
       <div className="p-4 lg:p-6 flex flex-col gap-4 lg:gap-4 overflow-y-auto">
         <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-2 pb-3 border-b border-gray-200">
-          Order Details
+          Buyer Details
         </h3>
 
         {/* Personal Information */}
