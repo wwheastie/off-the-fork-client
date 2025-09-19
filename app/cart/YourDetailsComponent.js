@@ -30,7 +30,7 @@ function YourDetailsComponent() {
   };
 
   return (
-    <div className="h-80 md:h-140 lg:h-130 border-r border-gray">
+    <div className="h-80 md:h-140 lg:h-136 border-r border-gray">
       <div className="p-4 lg:p-6 flex flex-col gap-4 lg:gap-4 overflow-y-auto">
         <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-2 pb-3 border-b border-gray-200">
           Buyer Details
