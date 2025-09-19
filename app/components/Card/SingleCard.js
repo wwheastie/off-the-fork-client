@@ -17,7 +17,8 @@ import { GlobalContext } from "@/app/context/GlobalContext";
 import Nutrition from "./Nutrition";
 
 export default function SingleCard({ info }) {
-  const { setCartCount, setCart, cart } = useContext(GlobalContext);
+  const context = useContext(GlobalContext);
+  const { setCartCount, setCart, cart } = context || {};
 
   // Start from the quantity provided by parent (derived from cart)
   const initialQty = Number(info?.quantity ?? 0);
@@ -60,7 +61,9 @@ export default function SingleCard({ info }) {
 
     if (delta !== 0) {
       // update count
-      setCartCount((c) => Math.max(0, c + delta));
+      if (setCartCount) {
+        setCartCount((c) => Math.max(0, c + delta));
+      }
 
       // update cart items (add or remove delta copies)
       if (delta > 0) addNCopies(delta);

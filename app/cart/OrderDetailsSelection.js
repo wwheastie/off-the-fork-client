@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "../../components/ui/button";
+import {PayPalButtons, PayPalScriptProvider, FUNDING} from "@paypal/react-paypal-js";
 
 export default function OrderDetailsSection({ total }) {
   const [selectedTip, setSelectedTip] = useState(0);
@@ -8,6 +9,21 @@ export default function OrderDetailsSection({ total }) {
     delivery: false,
     payment: false,
   });
+
+  // Form validation states
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    // add other required fields
+  });
+
+  // Check if all required fields are filled
+  const isFormValid = formData.name && formData.email && formData.phone && formData.address;
+
+  // Loading state for PayPal buttons
+  const [isPayPalLoading, setIsPayPalLoading] = useState(false);
 
   const tipOptions = [0, 5, 10, 15];
 
@@ -253,9 +269,96 @@ export default function OrderDetailsSection({ total }) {
             ${finalTotal.toFixed(2)}
           </span>
         </div>
-        <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 lg:py-4 px-4 lg:px-6 text-sm lg:text-base rounded-sm border-none cursor-pointer transition-all duration-200 hover:shadow-lg">
-          Pay to order
-        </Button>
+        {/*<Button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 lg:py-4 px-4 lg:px-6 text-sm lg:text-base rounded-sm border-none cursor-pointer transition-all duration-200 hover:shadow-lg">*/}
+        {/*  Pay to order*/}
+        {/*</Button>*/}
+        {isPayPalLoading && (
+          <div className="flex items-center justify-center py-4">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+            <span className="ml-2 text-gray-600">Processing payment...</span>
+          </div>
+        )}
+          <PayPalButtons
+              disabled={!isFormValid || isPayPalLoading}
+              style={{
+                  layout: "horizontal", // or 'vertical'
+                  color: "black",        // gold | blue | silver | white | black
+                  shape: "pill",        // pill | rect
+                  // label: "paypal",      // paypal | checkout | buynow | pay | installment
+                  height: 45,           // in pixels
+                  tagline: false        // hide the small tagline
+              }}
+              createOrder={(_data, actions) => {
+                  setIsPayPalLoading(true);
+                  return actions.order.create({
+                      intent: "CAPTURE",
+                      purchase_units:[
+                          {
+                              amount: {
+                                  currency_code: "USD", // Recommended to include explicitly
+                                  value: "10.00",
+                              },
+                          },
+                      ]
+                  });
+              }}
+              onApprove={async (_data, actions) => {
+                  try {
+                      const details = await actions.order.capture();
+                      alert(`Transaction completed by ${details.payer.name.given_name}`);
+                      console.log(details); // Transaction details
+                  } finally {
+                      setIsPayPalLoading(false);
+                  }
+              }}
+              onError={() => {
+                  setIsPayPalLoading(false);
+              }}
+              onCancel={() => {
+                  setIsPayPalLoading(false);
+              }}
+          />
+          <PayPalButtons
+              disabled={isPayPalLoading}
+              fundingSource={FUNDING.CARD}
+              style={{
+                  layout: "horizontal", // or 'vertical'
+                  // color: "gold",        // gold | blue | silver | white | black
+                  shape: "pill",       // pill | rect
+                  // label: "paypal",      // paypal | checkout | buynow | pay | installment
+                  height: 45,           // in pixels
+                  tagline: false        // hide the small tagline
+              }}
+              createOrder={(_data, actions) => {
+                  setIsPayPalLoading(true);
+                  return actions.order.create({
+                      intent: "CAPTURE",
+                      purchase_units:[
+                          {
+                              amount: {
+                                  currency_code: "USD", // Recommended to include explicitly
+                                  value: "10.00",
+                              },
+                          },
+                      ]
+                  });
+              }}
+              onApprove={async (_data, actions) => {
+                  try {
+                      const details = await actions.order.capture();
+                      alert(`Transaction completed by ${details.payer.name.given_name}`);
+                      console.log(details); // Transaction details
+                  } finally {
+                      setIsPayPalLoading(false);
+                  }
+              }}
+              onError={() => {
+                  setIsPayPalLoading(false);
+              }}
+              onCancel={() => {
+                  setIsPayPalLoading(false);
+              }}
+          />
       </div>
     </div>
   );

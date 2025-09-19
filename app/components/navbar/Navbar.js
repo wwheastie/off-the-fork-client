@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./Navbar.css";
 import logo from "./logo.png";
 import cartIcon from "./shopping-cart-white.png";
@@ -17,9 +17,14 @@ const links = [
 
 export default function Navbar() {
   const [mobileMenu, setMobileMenu] = useState(false);
-  const { headerLinks, cartCount, cart, setCart, setCartCount } =
-    useContext(GlobalContext);
+  const [isHydrated, setIsHydrated] = useState(false);
+  const context = useContext(GlobalContext);
+  const { headerLinks, cartCount = 0, cart = [], setCart, setCartCount } = context || {};
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const onRemoveFunction = (id, quantity) => {
     //
@@ -81,7 +86,7 @@ export default function Navbar() {
             <Link href={"/"}>
               {" "}
               <div className="hidden md:block">
-                Cart <span>{cartCount > 0 && `(${cartCount})`} </span>{" "}
+                Cart <span>{isHydrated && cartCount > 0 && `(${cartCount})`} </span>{" "}
               </div>{" "}
             </Link>
           </Button>

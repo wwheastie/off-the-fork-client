@@ -1,6 +1,7 @@
 "use client";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import image1 from "./logo.png";
+import {PayPalScriptProvider} from "@paypal/react-paypal-js";
 
 // Create context
 export const GlobalContext = createContext();
@@ -99,7 +100,12 @@ export function GlobalProvider({ children }) {
   );
 
   return (
-    <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
+    <GlobalContext.Provider value={value}>
+        <PayPalScriptProvider options={{ "clientId": "Aa3PQrsRLkg9MpbJFCYlUr8ipJrNytEJG3yKxckWNHQuzGbLMFGlpD0k0N_OhFdxmSbsVUWgc0YIJqft",
+            currency: "USD" }}>
+        {children}
+        </PayPalScriptProvider>
+    </GlobalContext.Provider>
   );
 }
 
