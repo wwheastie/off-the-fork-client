@@ -208,7 +208,7 @@ function YourDetailsComponent() {
                   className="w-full px-3 lg:px-4 py-2.5 lg:py-3 border border-gray-300 rounded-md text-sm text-gray-700 bg-white transition-all duration-200 focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                 />
               </div>
-              <div className="mb-3 lg:mb-4">
+              <div className="lg:mb-4">
                 <input
                   name="unit"
                   type="number"

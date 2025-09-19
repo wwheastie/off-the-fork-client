@@ -31,7 +31,7 @@ function YourCartComponent() {
           Clear
         </div>
       </div>
-      <div className="h-80 md:h-4/5 overflow-y-scroll py-1 px-1">
+      <div className="h-60 md:h-4/5 overflow-y-scroll py-1 px-1">
         {" "}
         {cart.length > 0 ? (
           cart.map((item, index) => (
