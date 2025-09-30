@@ -76,27 +76,21 @@ export default function Navbar() {
 
         <div className="flex">
           {" "}
-          <Button
-            className="bg-orange-600  font-semibold "
-            onClick={() => {
-              setIsOpen(true);
-            }}
-          >
-            <Image
-              src={cartIcon}
-              alt="Site Logo"
-              width={100}
-              height={50}
-              priority
-              className="h-auto w-6"
-            />
-            <Link href={"/"}>
-              {" "}
+          <Link href={"/cart"} className="cursor-pointer">
+            <Button className="bg-orange-600  font-semibold cursor-pointer">
+              <Image
+                src={cartIcon}
+                alt="Site Logo"
+                width={100}
+                height={50}
+                priority
+                className="h-auto w-6"
+              />{" "}
               <div className="hidden md:block">
                 Cart <span>{cartCount > 0 && `(${cartCount})`} </span>{" "}
               </div>{" "}
-            </Link>
-          </Button>
+            </Button>
+          </Link>
           {/* <ShoppingCart
             isOpen={isOpen}
             onClose={onCloseFunction}

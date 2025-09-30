@@ -86,7 +86,7 @@ export default function CartProductItem({ item, onRemove }) {
   }
 
   return (
-    <div className="flex flex-row gap-3 sm:gap-4 p-3 sm:p-4 border border-gray-200 rounded-lg bg-white transition-all duration-200 hover:shadow-sm ">
+    <div className="flex flex-row gap-3 sm:gap-4 p-3 sm:p-4 border border-gray-200 rounded-lg bg-white transition-all duration-200 hover:shadow-sm my-1">
       {/* Product Image */}
       <div className="flex-shrink-0 self-center sm:self-start">
         <Image
