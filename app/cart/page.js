@@ -7,6 +7,8 @@ import { GlobalContext } from "../context/GlobalContext";
 import CartComponent from "./CartComponent";
 import YourDetailsComponent from "./YourDetailsComponent";
 import YourCartComponent from "./YourCartComponent";
+import { Button } from "@/components/ui/button";
+import { getCartTotal } from "../context/mockData";
 
 export default function Page() {
   const { headerLinks, cartCount, cart, setCart, setCartCount } =
@@ -17,6 +19,15 @@ export default function Page() {
       <div className="cart-page-container">
         <div>
           <YourDetailsComponent />
+          <div className="hidden ml-6 w-4/5 md:flex flex-col gap-2 ">
+            <div className="flex justify-between font-bold  text-lg ">
+              <div>Total</div>
+              <div> $ {getCartTotal(cart)}</div>
+            </div>{" "}
+            <Button className="bg-orange-600  text-md w-full ">
+              Proceed To Payment
+            </Button>
+          </div>
         </div>
         <div>
           <YourCartComponent />

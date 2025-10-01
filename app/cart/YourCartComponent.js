@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import CartProductItem from "./CartProductItem";
 import { getCartTotal } from "../context/mockData";
+import { Button } from "@/components/ui/button";
 
 function YourCartComponent() {
   const { headerLinks, cartCount, cart, setCart, setCartCount } =
@@ -31,7 +32,7 @@ function YourCartComponent() {
           Clear
         </div>
       </div>
-      <div className="h-60 md:h-4/5 overflow-y-scroll py-1 px-1">
+      <div className="md:h-4/5 overflow-y-scroll py-1 px-1">
         {" "}
         {cart.length > 0 ? (
           cart.map((item, index) => (
@@ -47,6 +48,15 @@ function YourCartComponent() {
             <p>Your cart is empty</p>
           </div>
         )}
+        <div className="ml-6 w-4/5 flex flex-col gap-2 md:hidden">
+          <div className="flex justify-between font-bold  text-lg ">
+            <div>Total</div>
+            <div> $ {getCartTotal(cart)}</div>
+          </div>{" "}
+          <Button className="bg-orange-600  text-md w-full ">
+            Proceed To Payment
+          </Button>
+        </div>
       </div>
     </div>
   );
