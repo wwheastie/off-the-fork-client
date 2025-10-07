@@ -116,6 +116,11 @@
   width: 90%;
   margin: 0 auto;
 }
+.page-container {
+  min-height: 700px;
+  width: 100%;
+  margin-top: 100px;
+}
 
 @layer base {
   * {
