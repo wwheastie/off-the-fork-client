@@ -13,7 +13,7 @@ export default function CartIncrement({ info }) {
   const initialQty = Number(info.quantity ?? 0);
   const [qty, setQty] = useState(initialQty);
   const [showQty, setShowQty] = useState(initialQty > 0);
-  const MAX = 9;
+  const MAX = 30;
   const atMax = Number(qty || 0) >= MAX;
   const addNCopies = (n) => {
     console.log("hey", info.quantity);
@@ -74,10 +74,10 @@ export default function CartIncrement({ info }) {
   };
 
   useEffect(() => {
-    // normalize and clamp to 0..9 (optional: keep your MAX)
+    // normalize and clamp to 0..MAX
     let next = Number(info?.quantity ?? 0);
     if (!Number.isFinite(next) || next < 0) next = 0;
-    if (next > 9) next = 9;
+    if (next > MAX) next = MAX;
 
     // only update local state if it actually changed
     setQty((prev) => (prev !== next ? next : prev));
@@ -105,11 +105,11 @@ export default function CartIncrement({ info }) {
             />
           </div>
           <Input
-            className="w-14 h-8 text-center"
+            className="w-14 h-8 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             type="number"
             inputMode="numeric"
             min={0}
-            max={9}
+            max={MAX}
             step={1}
             value={qty}
             onChange={handleChange}
@@ -123,7 +123,7 @@ export default function CartIncrement({ info }) {
         className={`bg-orange-500 rounded-full w-7 h-7 flex justify-center items-center ${
           atMax && showQty ? "opacity-50 pointer-events-none" : "cursor-pointer"
         }`}
-        title={atMax && showQty ? "Maximum is 9" : "Add"}
+        title={atMax && showQty ? `Maximum is ${MAX}` : "Add"}
         onClick={revealOrIncrement}
         role="button"
         aria-label="Increase quantity"

@@ -40,7 +40,7 @@ export default function SingleCard({ info }) {
 
           <CardTitle className="text-md md:text-lg text-left flex justify-between">
             <div>{info?.name}</div>
-            <div>{info?.price}$</div>
+            <div>${info?.price.toFixed(2)}</div>
           </CardTitle>
 
           <CardDescription className="text-sm text-left">
