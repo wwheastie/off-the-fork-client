@@ -38,6 +38,21 @@ export default function Navbar() {
   const onCloseFunction = () => {
     setIsOpen(false);
   };
+
+  const scrollToDishes = () => {
+    const dishesSection = document.getElementById('dishes-section');
+    if (dishesSection) {
+      dishesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const scrollToHowItWorks = () => {
+    const howItWorksSection = document.getElementById('how-it-works-section');
+    if (howItWorksSection) {
+      howItWorksSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <>
       <ShoppingCart
@@ -68,9 +83,19 @@ export default function Navbar() {
             />
           </Link>
           {links.map((link) => (
-            <Link className="hidden md:block" key={link.name} href={"/"}>
+            <div
+              className="hidden md:block cursor-pointer"
+              key={link.name}
+              onClick={
+                link.name === "Our Dishes"
+                  ? scrollToDishes
+                  : link.name === "How it Works"
+                  ? scrollToHowItWorks
+                  : undefined
+              }
+            >
               {link.name}
-            </Link>
+            </div>
           ))}
         </div>
 

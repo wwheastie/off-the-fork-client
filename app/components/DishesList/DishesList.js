@@ -49,7 +49,7 @@ export default function DishesList() {
   }, [rawMeals, cart]);
 
   return (
-    <div className="mt-20">
+    <div id="dishes-section" className="mt-20">
       <div className="component-container">
         <div className="text-2xl md:text-3xl text-black font-bold mb-2">
           Our Dishes

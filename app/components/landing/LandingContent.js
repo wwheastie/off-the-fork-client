@@ -11,6 +11,14 @@ export default function LandingContent() {
       title: "Start now, schedule whenever you want",
     },
   ];
+
+  const scrollToDishes = () => {
+    const dishesSection = document.getElementById('dishes-section');
+    if (dishesSection) {
+      dishesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <div className="p-2 pt-8 md: landing-content">
       <div className="text-2xl md:text-3xl lg:text-5xl font-extrabold text-orange-600">
@@ -41,8 +49,8 @@ export default function LandingContent() {
       </div>
 
       <div className="flex gap-3">
-        <Button className="bg-orange-600 ">See Our Dishes</Button>
-        <Button className="bg-white text-black border">See Our Dishes</Button>
+        <Button className="bg-orange-600 " onClick={scrollToDishes}>See Our Dishes</Button>
+        {/*<Button className="bg-white text-black border">See Our Dishes</Button>*/}
       </div>
     </div>
   );

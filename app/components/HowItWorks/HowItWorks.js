@@ -10,7 +10,7 @@ export default function HowItWorks() {
     }
 
     return (
-        <div className="mt-20">
+        <div id="how-it-works-section" className="mt-20">
             <div className="component-container">
                 <div className="text-2xl md:text-3xl text-black font-bold mb-2">
                     How it Works
